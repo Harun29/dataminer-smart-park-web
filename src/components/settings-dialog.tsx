@@ -1,44 +1,88 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import {
-  Droplet,
-  Lamp,
-  Trash,
-  Triangle,
-} from "lucide-react"
+import * as React from "react";
+import { CheckCircle2, Droplet, Lamp, Trash, Triangle } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
+  DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
+import { Slider } from "./ui/slider";
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarProvider,
-} from "@/components/ui/sidebar"
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "./ui/breadcrumb"
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden"
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { Input } from "./ui/input";
 
 const data = {
   nav: [
-    { name: "Trash Can", icon: Trash, threshold: 50, description: "Set the threshold for trash can alerts." },
-    { name: "Lights", icon: Lamp, threshold: 75, description: "Set the threshold for light alerts." },
-    { name: "Fountain", icon: Triangle },
-    { name: "Soil", icon: Droplet },
+    {
+      name: "Trash Can",
+      icon: Trash,
+      type: "trash",
+      description: "Set the threshold for trash can alerts.",
+    },
+    {
+      name: "Lights",
+      icon: Lamp,
+      type: "lights",
+      description: "Set the threshold for light alerts.",
+    },
+    {
+      name: "Fountain",
+      icon: Triangle,
+      type: "fountain",
+      description: "Set the threshold for fountain alerts.",
+    },
+    {
+      name: "Soil",
+      icon: Droplet,
+      type: "soil",
+      description: "Set the threshold for soil moisture alerts.",
+    },
   ],
-}
+};
 
-export function SettingsDialog({ open, onOpenChange }: { open: boolean, onOpenChange: (open: boolean) => void }) {
+type ThresholdType = "trash" | "lights" | "fountain" | "soil";
+
+export function SettingsDialog({
+  open,
+  onOpenChange,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}) {
+  const [thresholds, setThresholds] = React.useState<
+    Record<ThresholdType, number>
+  >({
+    trash: 50,
+    lights: 75,
+    fountain: 50,
+    soil: 50,
+  });
+  const [selectedType, setSelectedType] =
+    React.useState<ThresholdType>("trash");
+
+  const handleSliderChange = (type: ThresholdType, value: number) => {
+    setThresholds((prev) => ({ ...prev, [type]: value }));
+  };
+
+  const handleSave = () => {
+    console.log("Saved thresholds:", thresholds);
+    // Add your save logic here
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
@@ -46,62 +90,61 @@ export function SettingsDialog({ open, onOpenChange }: { open: boolean, onOpenCh
           <Button size="sm">Open Dialog</Button>
         </VisuallyHidden>
       </DialogTrigger>
-      <DialogContent className="overflow-hidden p-0 md:max-h-[500px] md:max-w-[700px] lg:max-w-[800px]">
-        <DialogTitle className="sr-only">Settings</DialogTitle>
-        <DialogDescription className="sr-only">
-          Customize your alarm settings here.
-        </DialogDescription>
-        <SidebarProvider className="items-start">
-          <Sidebar collapsible="none" className="hidden md:flex">
-            <SidebarContent>
-              <SidebarGroup>
-                <SidebarGroupContent>
-                  <SidebarMenu>
-                    {data.nav.map((item) => (
-                      <SidebarMenuItem key={item.name}>
-                        <SidebarMenuButton
-                          asChild
-                          isActive={item.name === "Messages & media"}
-                        >
-                          <a href="#">
-                            <item.icon />
-                            <span>{item.name}</span>
-                          </a>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    ))}
-                  </SidebarMenu>
-                </SidebarGroupContent>
-              </SidebarGroup>
-            </SidebarContent>
-          </Sidebar>
-          <main className="flex h-[480px] flex-1 flex-col overflow-hidden">
-            <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-              <div className="flex items-center gap-2 px-4">
-                <Breadcrumb>
-                  <BreadcrumbList>
-                    <BreadcrumbItem className="hidden md:block">
-                      <BreadcrumbLink href="#">Settings</BreadcrumbLink>
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator className="hidden md:block" />
-                    <BreadcrumbItem>
-                      <BreadcrumbPage>Messages & media</BreadcrumbPage>
-                    </BreadcrumbItem>
-                  </BreadcrumbList>
-                </Breadcrumb>
-              </div>
-            </header>
-            <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4 pt-0">
-              {Array.from({ length: 10 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="aspect-video max-w-3xl rounded-xl bg-muted/50"
-                />
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Adjust Alert Thresholds</DialogTitle>
+          <DialogDescription>
+            Use the sliders to set the threshold at which alerts will be
+            triggered.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="p-4 space-y-4">
+          <Select
+            onValueChange={(value) => setSelectedType(value as ThresholdType)}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Sensor Type" />
+            </SelectTrigger>
+            <SelectContent>
+              {data.nav.map((item) => (
+                <SelectItem
+                  key={item.type}
+                  value={item.type}
+                  className="flex items-center space-x-2"
+                >
+                  <div className="flex items-center space-x-2">
+                    <item.icon strokeWidth={1} />
+                    <span>{item.name}</span>
+                  </div>
+                </SelectItem>
               ))}
-            </div>
-          </main>
-        </SidebarProvider>
+            </SelectContent>
+          </Select>
+
+          {data.nav.map(
+            (item) =>
+              item.type === selectedType && (
+                <div key={item.type}>
+                  <h3 className="font-semibold">{item.name}</h3>
+                  <p className="mb-4 text-sm text-gray-500">
+                    {item.description}
+                  </p>
+                  <div className="flex w-full">
+                    <Input placeholder="info" className="bg-blue-300" />
+                    <Input placeholder="warning" className="bg-yellow-300" />
+                    <Input placeholder="urgent" className="bg-red-300" />
+                  </div>
+                </div>
+              )
+          )}
+        </div>
+        <DialogFooter>
+          <Button onClick={handleSave} className="mt-4 rounded-full">
+            <CheckCircle2 />
+            Save
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

@@ -33,7 +33,15 @@ import {
 import { ChevronDown, User2, UserPlus2Icon, UsersIcon } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const ManageUsers = () => {
   const [data, setData] = useState<UserType[]>([]);
@@ -49,32 +57,34 @@ const ManageUsers = () => {
   };
 
   useEffect(() => {
-    const usersList = [{
-      id: "1",
-      email: "john@example.com",
-      firstName: "John",
-      lastName: "Doe",
-      zone: "Zone 1",
-      role: "Technician",
-    },
-    {
-      id: "2",
-      email: "jane@example.com",
-      firstName: "Jane",
-      lastName: "Smith",
-      role: "Manager",
-      zone: "Zone 2",
-    },
-    {
-      id: "3",
-      email: "mike@example.com",
-      firstName: "Mike",
-      lastName: "Johnson",
-      role: "Intern",
-      zone: "Zone 3",
-    },]
-      setData(usersList);
-      setLoading(false);
+    const usersList = [
+      {
+        id: "1",
+        email: "john@example.com",
+        firstName: "John",
+        lastName: "Doe",
+        zone: "Zone 1",
+        role: "Technician",
+      },
+      {
+        id: "2",
+        email: "jane@example.com",
+        firstName: "Jane",
+        lastName: "Smith",
+        role: "Manager",
+        zone: "Zone 2",
+      },
+      {
+        id: "3",
+        email: "mike@example.com",
+        firstName: "Mike",
+        lastName: "Johnson",
+        role: "Intern",
+        zone: "Zone 3",
+      },
+    ];
+    setData(usersList);
+    setLoading(false);
   }, []);
 
   const handleModifyWorker = (worker: UserType) => {
@@ -146,10 +156,35 @@ const ManageUsers = () => {
             Create new worker
           </DialogTrigger>
           <DialogContent className="w-auto h-auto">
-            <VisuallyHidden>
-              <DialogTitle></DialogTitle>
-            </VisuallyHidden>
-            {/* <CreateUserCard /> */}
+            <DialogHeader>
+              <DialogTitle>Create New Worker</DialogTitle>
+              <DialogDescription>
+                This action cannot be undone. This will permanently delete your
+                account and remove your data from our servers.
+              </DialogDescription>
+            </DialogHeader>
+            <Input placeholder="Email" />
+            <Input placeholder="First Name" />
+            <Input placeholder="Last Name" />
+            {/* <label htmlFor="email">Zone</label> */}
+            {/* <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline">
+                  Zone <ChevronDown />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuCheckboxItem>Zone 1</DropdownMenuCheckboxItem>
+                <DropdownMenuCheckboxItem>Zone 2</DropdownMenuCheckboxItem>
+                <DropdownMenuCheckboxItem>Zone 3</DropdownMenuCheckboxItem>
+              </DropdownMenuContent>
+            </DropdownMenu> */}
+            <DialogFooter>
+              <Button variant="ghost" onClick={handleClose}>
+                Cancel
+              </Button>
+              <Button onClick={handleClose}>Create</Button>
+            </DialogFooter>
           </DialogContent>
         </Dialog>
         <DropdownMenu>
@@ -180,7 +215,7 @@ const ManageUsers = () => {
         </DropdownMenu>
       </div>
       <div className="rounded-md border">
-      <Table>
+        <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
