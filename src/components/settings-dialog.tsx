@@ -94,8 +94,7 @@ export function SettingsDialog({
         <DialogHeader>
           <DialogTitle>Adjust Alert Thresholds</DialogTitle>
           <DialogDescription>
-            Use the sliders to set the threshold at which alerts will be
-            triggered.
+            Set the alert thresholds for different sensor types.
           </DialogDescription>
         </DialogHeader>
         <div className="p-4 space-y-4">
@@ -129,7 +128,7 @@ export function SettingsDialog({
                   <p className="mb-4 text-sm text-gray-500">
                     {item.description}
                   </p>
-                  <div className="flex w-full">
+                  <div className="flex w-full gap-2">
                     <Input placeholder="info" className="bg-blue-300" />
                     <Input placeholder="warning" className="bg-yellow-300" />
                     <Input placeholder="urgent" className="bg-red-300" />

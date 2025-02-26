@@ -75,7 +75,7 @@ const UpdateWorkerCard = forwardRef<HTMLDivElement, UpdateUserCardProps>(
             
             <Button onClick={handleUpdateUser} className="mt-4">
               {/* {updateing && <LoaderCircle className="h-4 w-4 animate-spin"/>} */}
-              Update User
+              Update Worker
             </Button>
           </CardContent>
         </Card>

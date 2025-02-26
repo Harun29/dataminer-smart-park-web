@@ -1,15 +1,11 @@
 "use client";
 
+import ReadingType from "@/types/ReadingType";
 import {
   AdvancedMarker,
   APIProvider,
   Map,
-  MapControl,
-  ControlPosition,
-  useMap,
 } from "@vis.gl/react-google-maps";
-import { useCallback, useEffect, useRef, useState } from "react";
-import ReadingType from "@/types/ReadingType";
 import {
   CloudSunRain,
   Droplet,
@@ -18,9 +14,9 @@ import {
   Trash,
   Triangle,
 } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Button } from "../ui/button";
-import Image from "next/image";
+import zones from "./zones";
 
 const MapView = () => {
   const [zoom, setZoom] = useState(18);
@@ -28,7 +24,6 @@ const MapView = () => {
     lat: 43.84826298213925,
     lng: 18.335363239634667,
   });
-
 
   const dummyData: ReadingType[] = [
     {
@@ -148,8 +143,6 @@ const MapView = () => {
     const [lat, lng] = reading.coordinates.split(",").map(Number);
     return { id: reading.id, lat, lng, sensorType: reading.sensorType };
   };
-
-  
 
   return (
     <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""}>

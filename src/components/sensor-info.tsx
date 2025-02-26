@@ -1,15 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
-import { MenuButton } from "./menu-button";
 import {
-  Info,
   Lamp,
   RockingChair,
   Trash,
-  Triangle,
+  Triangle
 } from "lucide-react";
+import { useState } from "react";
+import { MenuButton } from "./menu-button";
 import { Progress } from "./ui/progress";
 
 interface SensorInfoProps {

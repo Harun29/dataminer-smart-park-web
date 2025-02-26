@@ -33,7 +33,7 @@ const data = {
     {
       name: "Data Miner SPO",
       logo: GalleryVerticalEnd,
-      plan: "Enterprise",
+      plan: "Smart Park Ops",
     },
     {
       name: "Acme Corp.",
