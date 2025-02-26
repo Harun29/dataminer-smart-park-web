@@ -42,6 +42,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import UpdateWorkerCard from "@/components/update-worker-card";
+import DeleteWorkerDialog from "@/components/delete-worker-dialog";
 
 const ManageUsers = () => {
   const [data, setData] = useState<UserType[]>([]);
@@ -284,12 +286,12 @@ const ManageUsers = () => {
           </Button>
         </div>
       </div>
-      {/* {workerToDelete && (
+      {workerToDelete && (
         <DeleteWorkerDialog workerToDelete={workerToDelete} onClose={handleClose} />
       )}
       {selectedWorker && (
         <UpdateWorkerCard user={selectedWorker} onClose={handleClose} />
-      )} */}
+      )}
     </div>
   );
 };

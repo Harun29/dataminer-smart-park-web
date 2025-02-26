@@ -66,10 +66,10 @@ const SensorInfo = ({ type = "default" }: SensorInfoProps) => {
           <motion.div
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="p-4 mt-6 grid gap-4 opacity-0 text-xs font-semibold overflow-y-scroll custom-scrollbar w-full h-[calc(100%-48px)]"
+            className="mt-6 grid gap-4 opacity-0 text-xs font-semibold overflow-y-scroll custom-scrollbar w-full h-[calc(100%-48px)]"
           >
             {/* Trash can */}
-            <div className="bg-yellow-500 rounded-lg p-4 mb-3 flex flex-col items-center gap-2 w-full text-white">
+            <div className="bg-yellow-500 rounded-lg p-4 flex flex-col items-center gap-2 w-full text-white">
               <div className="flex items-center gap-2">
                 <Trash size={20} />
                 <span>Trash can</span>
@@ -82,7 +82,7 @@ const SensorInfo = ({ type = "default" }: SensorInfoProps) => {
             </div>
 
             {/* Light1 */}
-            <div className="bg-green-500 rounded-lg p-4 mb-3 flex flex-col items-center gap-2 w-full text-white">
+            <div className="bg-green-500 rounded-lg p-4 flex flex-col items-center gap-2 w-full text-white">
               <div className="flex items-center gap-2">
                 <Lamp size={20} />
                 <span>Light1</span>
@@ -94,7 +94,7 @@ const SensorInfo = ({ type = "default" }: SensorInfoProps) => {
               <span className="text-sm">All good</span>
             </div>
             {/* Light2 */}
-            <div className="bg-red-500 rounded-lg p-4 mb-3 flex flex-col items-center gap-2 w-full text-white">
+            <div className="bg-red-500 rounded-lg p-4 flex flex-col items-center gap-2 w-full text-white">
               <div className="flex items-center gap-2">
                 <Lamp size={20} />
                 <span>Light2</span>
@@ -107,7 +107,7 @@ const SensorInfo = ({ type = "default" }: SensorInfoProps) => {
             </div>
 
             {/* Bench1 */}
-            <div className="bg-blue-500 rounded-lg p-4 mb-3 flex flex-col items-center gap-2 w-full text-white">
+            <div className="bg-blue-500 rounded-lg p-4 flex flex-col items-center gap-2 w-full text-white">
               <div className="flex items-center gap-2">
                 <RockingChair size={20} />
                 <span>Bench1</span>
@@ -119,7 +119,7 @@ const SensorInfo = ({ type = "default" }: SensorInfoProps) => {
               <span className="text-sm">In use</span>
             </div>
             {/* Bench3 */}
-            <div className="bg-yellow-500 rounded-lg p-4 mb-3 flex flex-col items-center gap-2 w-full text-white">
+            <div className="bg-yellow-500 rounded-lg p-4 flex flex-col items-center gap-2 w-full text-white">
               <div className="flex items-center gap-2">
                 <RockingChair size={20} />
                 <span>Bench3</span>
