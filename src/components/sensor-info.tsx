@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { MenuButton } from "./MenuButton";
+import { MenuButton } from "./menu-button";
 import {
   Info,
   Lamp,

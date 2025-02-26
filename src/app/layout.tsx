@@ -32,7 +32,6 @@ export default function RootLayout({
       >
         <SidebarProvider>
           <AppSidebar />
-          {/* <SidebarTrigger /> */}
           {children}
           <AlarmsDrawer />
         </SidebarProvider>

@@ -1,18 +1,8 @@
 "use client";
 
+import { BellRing } from "lucide-react";
 import { useState } from "react";
 import { Button } from "./ui/button";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "./ui/drawer";
-import { Bell, BellRing } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -22,6 +12,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger
+} from "./ui/drawer";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 
 interface Alarm {
