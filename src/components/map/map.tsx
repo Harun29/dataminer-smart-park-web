@@ -1,6 +1,13 @@
 "use client";
 
-import { AdvancedMarker, APIProvider, Map } from "@vis.gl/react-google-maps";
+import {
+  AdvancedMarker,
+  APIProvider,
+  Map,
+  MapControl,
+  ControlPosition,
+  useMap,
+} from "@vis.gl/react-google-maps";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ReadingType from "@/types/ReadingType";
 import {
@@ -12,6 +19,8 @@ import {
   Triangle,
 } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Button } from "../ui/button";
+import Image from "next/image";
 
 const MapView = () => {
   const [zoom, setZoom] = useState(18);
@@ -19,6 +28,7 @@ const MapView = () => {
     lat: 43.84826298213925,
     lng: 18.335363239634667,
   });
+
 
   const dummyData: ReadingType[] = [
     {
@@ -139,6 +149,8 @@ const MapView = () => {
     return { id: reading.id, lat, lng, sensorType: reading.sensorType };
   };
 
+  
+
   return (
     <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""}>
       <Map
@@ -148,6 +160,8 @@ const MapView = () => {
         onCenterChanged={(e) => handleCenterChanged(e)}
         onZoomChanged={(e) => handleZoomChange(e)}
         clickableIcons={false}
+        mapTypeControl={false}
+        fullscreenControl={false}
       >
         {dummyData.map((reading) => {
           const [open, setOpen] = useState(false);

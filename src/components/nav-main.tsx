@@ -38,12 +38,10 @@ export function NavMain({
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
                 {item.title === "Alarm Settings" ? (
-                  <button className="w-full" onClick={onAlarmsClick}>
-                    <SidebarMenuButton tooltip={item.title}>
+                    <SidebarMenuButton className="w-full" onClick={onAlarmsClick} tooltip={item.title}>
                       {item.icon && <item.icon />}
                       <span>{item.title}</span>
                     </SidebarMenuButton>
-                  </button>
                 ) : (
                   <Link href={item.url}>
                     <SidebarMenuButton tooltip={item.title}>
