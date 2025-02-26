@@ -12,6 +12,7 @@ import {
   Layout,
   Map,
   PieChart,
+  Settings,
   Settings2,
   SquareTerminal,
   Users,
@@ -28,6 +29,8 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
+import { SettingsDialog } from "./settings-dialog"
 
 // This is sample data.
 const data = {
@@ -60,36 +63,41 @@ const data = {
       icon: Map,
     },
     {
-      title: "Dashboard",
-      url: "/dashboard",
-      icon: Layout,
-    },
-    {
       title: "Workers",
       url: "/workers",
       icon: Users,
     },
     {
-      title: "Alarms",
+      title: "Alarm Settings",
       url: "#",
-      icon: Bell,
+      icon: Settings,
     },
   ],
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+
+  const handleAlarmsClick = () => {
+    setIsDialogOpen(true);
+  };
+
   return (
-    <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
-      </SidebarHeader>
-      <SidebarContent>
-        <NavMain items={data.navMain} />
-      </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={data.user} />
-      </SidebarFooter>
-      <SidebarRail />
-    </Sidebar>
+    <>
+      <Sidebar collapsible="icon" {...props}>
+        <SidebarHeader>
+          <TeamSwitcher teams={data.teams} />
+        </SidebarHeader>
+        <SidebarContent>
+          <NavMain items={data.navMain} onAlarmsClick={handleAlarmsClick} />
+        </SidebarContent>
+        <SidebarFooter>
+          <NavUser user={data.user} />
+        </SidebarFooter>
+        <SidebarRail />
+      </Sidebar>
+
+      <SettingsDialog open={isDialogOpen} onOpenChange={setIsDialogOpen} />
+    </>
   )
 }

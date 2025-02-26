@@ -32,7 +32,7 @@ const SensorInfo = ({ type = "default" }: SensorInfoProps) => {
           }
         }}
         className={`$ px-6 py-3 z-[9999] bg-white rounded-3xl shadow-lg border ${
-          !openSidebar && "!px-2 !pr-6 cursor-pointer hover:bg-gray-100"
+          !openSidebar && "!px-4 cursor-pointer hover:bg-gray-100"
         }`}
       >
         <div className="flex items-center justify-between">

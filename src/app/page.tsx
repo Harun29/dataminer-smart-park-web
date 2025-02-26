@@ -1,5 +1,6 @@
 "use client";
 
+import AlarmsDrawer from "@/components/alarms-drawer";
 import BasicInfo from "@/components/BasicInfo";
 import SensorInfo from "@/components/sensor-info";
 import Image from "next/image";
