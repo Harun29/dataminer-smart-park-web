@@ -55,6 +55,11 @@ const data = {
   ],
   navMain: [
     {
+      title: "Overview",
+      url: "/",
+      icon: Map,
+    },
+    {
       title: "Dashboard",
       url: "/dashboard",
       icon: Layout,

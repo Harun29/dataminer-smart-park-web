@@ -19,7 +19,7 @@ const BasicInfo = () => {
     <>
       <motion.div
         animate={{
-          width: openSidebar ? 380 : 250,
+          width: openSidebar ? 380 : 200,
           height: openSidebar ? 360 : 48,
         }}
         onClick={() => {
@@ -29,15 +29,15 @@ const BasicInfo = () => {
         }}
         className={`${
           openSidebar && "overflow-y-auto"
-        } px-4 pr-6 py-3 z-[9999] bg-white rounded-3xl shadow-lg border ${
-          !openSidebar && "cursor-pointer hover:bg-gray-100"
+        } px-6 py-3 z-[9999] bg-white rounded-3xl shadow-lg border ${
+          !openSidebar && "!px-2 !pr-6 cursor-pointer hover:bg-gray-100"
         }`}
       >
         <div className="flex items-center justify-between">
-          <Info size={24} />
+          <Info size={openSidebar ? 24 : 20} />
           <motion.h1
             animate={{
-              fontSize: openSidebar ? "24px" : "16px",
+              fontSize: openSidebar ? "24px" : "14px",
             }}
             className="font-semibold"
           >
@@ -51,8 +51,8 @@ const BasicInfo = () => {
               color="#000"
               lineProps={{ strokeLinecap: "round" }}
               transition={{ type: "spring", stiffness: 260, damping: 20 }}
-              width="14"
-              height="14"
+              width={openSidebar ? 14 : 12}
+              height={openSidebar ? 14 : 12}
             />
           </div>
         </div>

@@ -23,7 +23,7 @@ const SensorInfo = ({ type = "default" }: SensorInfoProps) => {
     <>
       <motion.div
         animate={{
-          width: openSidebar ? 380 : 170,
+          width: openSidebar ? 380 : 140,
           height: openSidebar ? 660 : 48,
         }}
         onClick={() => {
@@ -31,18 +31,18 @@ const SensorInfo = ({ type = "default" }: SensorInfoProps) => {
             setOpenSidebar(!openSidebar);
           }
         }}
-        className={`$ px-4 pr-6 py-3 z-[9999] bg-white rounded-3xl shadow-lg border ${
-          !openSidebar && "cursor-pointer hover:bg-gray-100"
+        className={`$ px-6 py-3 z-[9999] bg-white rounded-3xl shadow-lg border ${
+          !openSidebar && "!px-2 !pr-6 cursor-pointer hover:bg-gray-100"
         }`}
       >
         <div className="flex items-center justify-between">
-          {type === "Trash" && <Trash size={24} />}
-          {type === "Light" && <Lamp size={24} />}
-          {type === "Bench" && <RockingChair size={24} />}
-          {type === "Fountain" && <Triangle size={24} />}
+          {type === "Trash" && <Trash size={openSidebar ? 24 : 20} />}
+          {type === "Light" && <Lamp size={openSidebar ? 24 : 20} />}
+          {type === "Bench" && <RockingChair size={openSidebar ? 24 : 20} />}
+          {type === "Fountain" && <Triangle size={openSidebar ? 24 : 20} />}
           <motion.h1
             animate={{
-              fontSize: openSidebar ? "24px" : "16px",
+              fontSize: openSidebar ? "24px" : "14px",
             }}
             className="font-semibold"
           >
@@ -56,8 +56,8 @@ const SensorInfo = ({ type = "default" }: SensorInfoProps) => {
               color="#000"
               lineProps={{ strokeLinecap: "round" }}
               transition={{ type: "spring", stiffness: 260, damping: 20 }}
-              width="14"
-              height="14"
+              width={openSidebar ? 14 : 12}
+              height={openSidebar ? 14 : 12}
             />
           </div>
         </div>
