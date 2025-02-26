@@ -1,25 +1,16 @@
 "use client"
 
-import * as React from "react"
 import {
   AudioWaveform,
-  Bell,
-  BookOpen,
-  Bot,
   Command,
-  Frame,
   GalleryVerticalEnd,
-  Layout,
   Map,
-  PieChart,
   Settings,
-  Settings2,
-  SquareTerminal,
-  Users,
+  Users
 } from "lucide-react"
+import * as React from "react"
 
 import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "./nav-projects"
 import { NavUser } from "@/components/nav-user"
 import { TeamSwitcher } from "@/components/team-switcher"
 import {
@@ -29,7 +20,6 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { SettingsDialog } from "./settings-dialog"
 
 // This is sample data.

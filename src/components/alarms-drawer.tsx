@@ -19,7 +19,7 @@ const AlarmsDrawer = () => {
     { id: 4, device: "Bench1", message: "Occupied 2/3" },
   ]);
 
-  const assignToUser = (alarmId: number) => {
+  const assignToWorker = (alarmId: number) => {
     console.log(`Assigning alarm ${alarmId} to user`);
   };
 
@@ -41,7 +41,7 @@ const AlarmsDrawer = () => {
               <div>
                 <strong>{alarm.device}</strong>: {alarm.message}
               </div>
-              <Button variant="ghost" onClick={() => assignToUser(alarm.id)}>Assign</Button>
+              <Button variant="ghost" onClick={() => assignToWorker(alarm.id)}>Assign</Button>
             </div>
           ))}
         </div>
