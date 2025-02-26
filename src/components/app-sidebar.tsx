@@ -61,7 +61,7 @@ const data = {
     },
     {
       title: "Workers",
-      url: "#",
+      url: "/workers",
       icon: Users,
     },
     {

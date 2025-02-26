@@ -76,7 +76,7 @@ const SensorInfo = ({ type = "default" }: SensorInfoProps) => {
                 <span>65% full</span>
               </div>
               <div className="w-full row-span-2">
-                <Progress value={65}/>
+                <Progress className="text-white" value={65}/>
               </div>
               <span className="text-sm">Needs emptying in about: 34min.</span>
             </div>
