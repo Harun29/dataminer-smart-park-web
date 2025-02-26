@@ -45,9 +45,9 @@ const AlarmsDrawer = () => {
       <DrawerTrigger asChild className="fixed bottom-4 right-4">
         <Button
           variant="outline"
-          className="rounded-full h-16 w-16 text-xl p-0"
+          className="rounded-full h-16 w-16 text-xl p-0 bg-blue-400 text-white"
         >
-          <BellRing className="!w-6 !h-6" strokeWidth={1} />
+          <BellRing className="!w-6 !h-6" strokeWidth={2} />
         </Button>
       </DrawerTrigger>
       <DrawerContent>
