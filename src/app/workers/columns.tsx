@@ -34,19 +34,15 @@ export const columns = (
     cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
   },
   {
-    accessorKey: "firstName",
+    accessorKey: "ime",
     header: "First Name",
   },
   {
-    accessorKey: "lastName",
+    accessorKey: "prezime",
     header: "Last Name",
   },
   {
-    accessorKey: "zone",
-    header: "Zone Assigned",
-  },
-  {
-    accessorKey: "role",
+    accessorKey: "uloga",
     header: "Role",
   },
   {
@@ -55,7 +51,7 @@ export const columns = (
     cell: ({ row }) => {
       const user = row.original;
 
-      return (
+      if(user.uloga!=="Admin"){return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
@@ -82,7 +78,9 @@ export const columns = (
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      );
+      );}else{
+        return(null);
+      }
     },
   },
 ];

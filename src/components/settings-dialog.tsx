@@ -1,7 +1,7 @@
 "use client";
 
 import ThresholdType from "@/types/ThresholdType";
-import { CheckCircle2, Droplet, Lamp, Loader2, Trash, Triangle } from "lucide-react";
+import { CheckCircle2, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -24,34 +24,6 @@ import {
   SelectValue,
 } from "./ui/select";
 
-const data = {
-  nav: [
-    {
-      name: "Trash Can",
-      icon: Trash,
-      type: "trash",
-      description: "Set the threshold for trash can alerts.",
-    },
-    {
-      name: "Lights",
-      icon: Lamp,
-      type: "lights",
-      description: "Set the threshold for light alerts.",
-    },
-    {
-      name: "Fountain",
-      icon: Triangle,
-      type: "fountain",
-      description: "Set the threshold for fountain alerts.",
-    },
-    {
-      name: "Soil",
-      icon: Droplet,
-      type: "soil",
-      description: "Set the threshold for soil moisture alerts.",
-    },
-  ],
-};
 
 export function SettingsDialog({
   open,
@@ -106,7 +78,7 @@ export function SettingsDialog({
   }, [selectedType]);
 
   const handleSave = async () => {
-    setLoading(true); // Set loading to true
+    setLoading(true);
     const updateThresholds = async (id: number, limit: number, type: number ) => {
       try {
         console.log("id: ", id, "limit: ", limit, "type: ", type);

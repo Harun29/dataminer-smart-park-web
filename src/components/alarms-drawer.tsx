@@ -1,7 +1,8 @@
 "use client";
 
+import { useAlarms } from "@/app/context/alarmsContexts";
+import { useAuth } from "@/app/context/authContext";
 import { BellRing, Info, TriangleAlert } from "lucide-react";
-import { useState } from "react";
 import { Button } from "./ui/button";
 import {
   Dialog,
@@ -20,6 +21,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "./ui/drawer";
+import { Progress } from "./ui/progress";
 import {
   Select,
   SelectContent,
@@ -27,9 +29,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { Progress } from "./ui/progress";
-import { useAuth } from "@/app/context/authContext";
-import { useAlarms } from "@/app/context/alarmsContexts";
 
 
 const AlarmsDrawer = () => {
@@ -58,7 +57,6 @@ const AlarmsDrawer = () => {
           </DrawerDescription>
         </DrawerHeader>
 
-        {/* Scrollable container */}
         <div className=" overflow-x-auto custom-scrollbar m-6">
           <div className="flex space-x-3 min-w-max">
             {alarms.map((alarm) => (

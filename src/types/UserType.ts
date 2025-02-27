@@ -1,9 +1,8 @@
 type UserType = {
   id: string;
   email: string;
-  firstName: string;
-  lastName: string;
-  zone: string;
+  ime: string;
+  prezime: string;
   uloga: string;
 };
 

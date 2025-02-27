@@ -53,40 +53,29 @@ const ManageUsers = () => {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [selectedWorker, setSelectedWorker] = useState<UserType | null>(null);
   const [workerToDelete, setWorkerToDelete] = useState<UserType | null>(null);
+  const [newWorker, setNewWorker] = useState({ Ime: "", Prezime: "", Email: "" });
 
   const handleSelectWorkerToDelete = (user: UserType) => {
     setWorkerToDelete(user);
   };
 
   useEffect(() => {
-    const usersList = [
-      {
-        id: "1",
-        email: "john@example.com",
-        firstName: "John",
-        lastName: "Doe",
-        zone: "Zone 1",
-        role: "Technician",
-      },
-      {
-        id: "2",
-        email: "jane@example.com",
-        firstName: "Jane",
-        lastName: "Smith",
-        role: "Manager",
-        zone: "Zone 2",
-      },
-      {
-        id: "3",
-        email: "mike@example.com",
-        firstName: "Mike",
-        lastName: "Johnson",
-        role: "Intern",
-        zone: "Zone 3",
-      },
-    ];
-    setData(usersList);
-    setLoading(false);
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch("https://localhost:7206/api/Korisnik");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const usersList = await response.json();
+        setData(usersList);
+      } catch (error) {
+        console.error("Failed to fetch users:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchUsers();
   }, []);
 
   const handleModifyWorker = (worker: UserType) => {
@@ -96,6 +85,22 @@ const ManageUsers = () => {
   const handleClose = () => {
     setSelectedWorker(null);
     setWorkerToDelete(null);
+  };
+
+  const handleCreateWorker = async () => {
+    try {
+      const response = await fetch(`https://localhost:7206/api/Korisnik/5?Ime=${newWorker.Ime}&Prezime=${newWorker.Prezime}&Email=${newWorker.Email}`, {
+        method: "POST",
+      });
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const createdWorker = await response.json();
+      setData((prevData) => [...prevData, createdWorker]);
+      handleClose();
+    } catch (error) {
+      console.error("Failed to create worker:", error);
+    }
   };
 
   const table = useReactTable({
@@ -161,31 +166,31 @@ const ManageUsers = () => {
             <DialogHeader>
               <DialogTitle>Create New Worker</DialogTitle>
               <DialogDescription>
-                This action cannot be undone. This will permanently delete your
-                account and remove your data from our servers.
+                Fill in the details below to create a new worker.
               </DialogDescription>
             </DialogHeader>
-            <Input placeholder="Email" />
-            <Input placeholder="First Name" />
-            <Input placeholder="Last Name" />
-            {/* <label htmlFor="email">Zone</label> */}
-            {/* <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline">
-                  Zone <ChevronDown />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuCheckboxItem>Zone 1</DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem>Zone 2</DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem>Zone 3</DropdownMenuCheckboxItem>
-              </DropdownMenuContent>
-            </DropdownMenu> */}
+            <Input
+              placeholder="Email"
+              value={newWorker.Email}
+              onChange={(e) => setNewWorker({ ...newWorker, Email: e.target.value })}
+            />
+            <Input
+              placeholder="First Name"
+              value={newWorker.Ime}
+              onChange={(e) => setNewWorker({ ...newWorker, Ime: e.target.value })}
+            />
+            <Input
+              placeholder="Last Name"
+              value={newWorker.Prezime}
+              onChange={(e) => setNewWorker({ ...newWorker, Prezime: e.target.value })}
+            />
             <DialogFooter>
-              <Button variant="ghost" onClick={handleClose}>
+              <Button className="rounded-full" variant="ghost" onClick={handleClose}>
                 Cancel
               </Button>
-              <Button onClick={handleClose}>Create</Button>
+              <Button className="rounded-full bg-blue-400" onClick={handleCreateWorker}>
+                Create
+              </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
