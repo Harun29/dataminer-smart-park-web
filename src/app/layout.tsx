@@ -4,6 +4,8 @@ import "./globals.css";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import AlarmsDrawer from "@/components/alarms-drawer";
+import { AuthProvider } from "./context/authContext";
+import AuthenticatedLayout from "@/components/authenticated-layout";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,11 +32,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SidebarProvider>
-          <AppSidebar />
-          {children}
-          <AlarmsDrawer />
-        </SidebarProvider>
+        <AuthProvider>
+          <AuthenticatedLayout>
+            <SidebarProvider>
+              <AppSidebar />
+              {children}
+              <AlarmsDrawer />
+            </SidebarProvider>
+          </AuthenticatedLayout>
+        </AuthProvider>
       </body>
     </html>
   );
