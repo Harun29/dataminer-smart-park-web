@@ -10,6 +10,25 @@ import MarkerWithPopover from "./marker-with-popover";
 import { Polygon } from "./polygon";
 import zones from "./zones";
 
+const getZoneColor = (zoneName: string) => {
+  switch (zoneName) {
+    case "Igraliste":
+      return "#FF0000";
+    case "Pond":
+      return "#0000FF";
+    case "Rest":
+      return "#FFFF00"; 
+    case "Park Maintenance":
+      return "#FF00FF";
+    case "Parking":
+      return "#00FFFF";
+    case "Recreation":
+      return "#FFA500";
+    default:
+      return "#7DA5F5";
+  }
+};
+
 const MapView = () => {
   const [zoom, setZoom] = useState(18);
   const [center, setCenter] = useState({
@@ -60,13 +79,13 @@ const MapView = () => {
         ))}
         {zones.map((zone) => (
           <Polygon
-            key={zone.id}
-            fillColor="#7DA5F5"
-            fillOpacity={0.2}
-            strokeColor={"#7DA5F5"}
-            strokeWeight={1}
-            paths={zone.points.map((point) => ({ lat: point.lat, lng: point.lng }))}
-          />
+          key={zone.id}
+          fillColor={getZoneColor(zone.name)}
+          fillOpacity={0.2}
+          strokeColor={"#7DA5F5"}
+          strokeWeight={1}
+          paths={zone.points.map((point) => ({ lat: point.lat, lng: point.lng }))}
+        />
         ))}
       </Map>
     </APIProvider>
