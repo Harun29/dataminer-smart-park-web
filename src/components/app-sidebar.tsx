@@ -76,11 +76,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   return (
     <>
-      <Sidebar collapsible="icon" {...props}>
+      <Sidebar collapsible={isAdmin ? "icon" : "offcanvas"} {...props}>
         <SidebarHeader>
           <TeamSwitcher teams={data.teams} />
         </SidebarHeader>
-        <SidebarContent>
+        <SidebarContent className="custom-scrollbar">
           {isAdmin && <NavMain items={data.navMain} onAlarmsClick={handleAlarmsClick} />}
           {!isAdmin && <WorkersTasks />}
         </SidebarContent>

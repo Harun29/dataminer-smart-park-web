@@ -6,6 +6,7 @@ import LoginPage from "@/app/_login/page";
 
 const AuthenticatedLayout = ({ children }: { children: React.ReactNode }) => {
   const { user } = useAuth();
+  const {loading} = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -16,6 +17,9 @@ const AuthenticatedLayout = ({ children }: { children: React.ReactNode }) => {
     }
   }, [user, router]);
 
+  if (loading) {
+    return null;
+  }
 
   if (!user) {
     return <LoginPage />;

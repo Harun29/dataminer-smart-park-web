@@ -16,10 +16,19 @@ const AuthContext = createContext<AuthContextProps | null>(null);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<UserType | null>(null);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setUser(parsedUser);
+      setIsAdmin(parsedUser.role === "admin");
+      setLoading(false);     
+    }
+  }, []);
+  
   const login = async (email: string, password: string) => {
-    // Dummy data for login
     const dummyUser: UserType = {
       id: "1",
       email,
@@ -28,29 +37,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       zone: "A",
       role: email === "admin@example.com" ? "admin" : "worker",
     };
+    
+    localStorage.setItem("user", JSON.stringify(dummyUser));
     setUser(dummyUser);
-    if (dummyUser.role === "admin") {
-      setIsAdmin(true);
-    }else{
-      setIsAdmin(false);
-    }
-    return Promise.resolve();
+    setIsAdmin(dummyUser.role === "admin");
+    setLoading(false);     
   };
-
-  useEffect(() => {
-    console.log("isAdmin changed to", isAdmin);
-  }, [isAdmin])
-
-  useEffect(() => {
-    console.log("AuthProvider mounted");
-    return () => {
-      console.log("AuthProvider unmounted");
-    };
-  }, []);
-
+  
   const logout = () => {
+    localStorage.removeItem("user");
     setUser(null);
+    setIsAdmin(false);
   };
+  
+  
 
   return (
     <AuthContext.Provider value={{ user, isAdmin, login, logout, loading }}>
