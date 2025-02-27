@@ -2,7 +2,7 @@
 
 import BasicInfo from "@/components/basic-info";
 import MapView from "@/components/map/map";
-import SensorInfo from "@/components/sensor-info";
+import SensorInfo from "@/components/sensors-info";
 import { useCallback, useState } from "react";
 
 export default function Home() {

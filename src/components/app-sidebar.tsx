@@ -21,8 +21,9 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import { SettingsDialog } from "./settings-dialog"
+import { useAuth } from "@/app/context/authContext"
+import WorkersTasks from "./workers-tasks"
 
-// This is sample data.
 const data = {
   user: {
     name: "ADMIN",
@@ -67,6 +68,7 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+  const {isAdmin} = useAuth();
 
   const handleAlarmsClick = () => {
     setIsDialogOpen(true);
@@ -79,7 +81,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <TeamSwitcher teams={data.teams} />
         </SidebarHeader>
         <SidebarContent>
-          <NavMain items={data.navMain} onAlarmsClick={handleAlarmsClick} />
+          {isAdmin && <NavMain items={data.navMain} onAlarmsClick={handleAlarmsClick} />}
+          {!isAdmin && <WorkersTasks />}
         </SidebarContent>
         <SidebarFooter>
           <NavUser user={data.user} />

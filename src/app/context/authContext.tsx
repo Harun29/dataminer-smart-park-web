@@ -31,9 +31,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setUser(dummyUser);
     if (dummyUser.role === "admin") {
       setIsAdmin(true);
+    }else{
+      setIsAdmin(false);
     }
     return Promise.resolve();
   };
+
+  useEffect(() => {
+    console.log("isAdmin changed to", isAdmin);
+  }, [isAdmin])
 
   useEffect(() => {
     console.log("AuthProvider mounted");
