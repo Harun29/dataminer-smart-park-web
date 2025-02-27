@@ -18,8 +18,7 @@ export default function Home() {
         <BasicInfo />
         <SensorInfo type="Trash" />
         <SensorInfo type="Light" />
-        <SensorInfo type="Bench" />
-        <SensorInfo type="Fountain" />
+        <SensorInfo type="Soil" />
       </div>
         <ElectricityInfo consumption={50} production={40} />
     </div>

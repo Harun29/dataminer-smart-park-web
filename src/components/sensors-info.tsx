@@ -1,17 +1,11 @@
 "use client";
 
+import { useSensors } from "@/app/context/sensorsContext";
 import { motion } from "framer-motion";
-import {
-  Lamp,
-  RockingChair,
-  Trash,
-  Triangle,
-  Zap
-} from "lucide-react";
+import { Droplet, Lamp, Trash } from "lucide-react";
 import { useState } from "react";
 import { MenuButton } from "./menu-button";
 import { Progress } from "./ui/progress";
-import {  useSensors} from "@/app/context/sensorsContext";
 
 interface SensorInfoProps {
   type?: string;
@@ -19,7 +13,7 @@ interface SensorInfoProps {
 
 const SensorInfo = ({ type = "default" }: SensorInfoProps) => {
   const [openSidebar, setOpenSidebar] = useState(false);
-  const {readings} = useSensors();
+  const { readings } = useSensors();
 
   return (
     <>
@@ -40,9 +34,7 @@ const SensorInfo = ({ type = "default" }: SensorInfoProps) => {
         <div className="flex items-center justify-between">
           {type === "Trash" && <Trash size={openSidebar ? 24 : 20} />}
           {type === "Light" && <Lamp size={openSidebar ? 24 : 20} />}
-          {type === "Bench" && <RockingChair size={openSidebar ? 24 : 20} />}
-          {type === "Fountain" && <Triangle size={openSidebar ? 24 : 20} />}
-          {type === "Power" && <Zap size={openSidebar ? 24 : 20} />}
+          {type === "Soil" && <Droplet size={openSidebar ? 24 : 20} />}
           <motion.h1
             animate={{
               fontSize: openSidebar ? "24px" : "14px",
@@ -69,37 +61,41 @@ const SensorInfo = ({ type = "default" }: SensorInfoProps) => {
           <motion.div
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="mt-6 grid gap-4 opacity-0 text-xs font-semibold overflow-y-scroll custom-scrollbar w-full h-[calc(100%-48px)]"
+            className="flex flex-col mt-6 gap-4 opacity-0 text-xs font-semibold overflow-y-scroll custom-scrollbar w-full h-[calc(100%-48px)]"
           >
-            {readings.map((reading) => (
-              <div key={reading.id} className="bg-gray-100 rounded-lg p-4 flex flex-col items-center gap-2 w-full text-white">
-                <div className="flex items-center gap-2">
-                  <span>{reading.name}</span>
-                  <span>{reading.value} {reading.unit}</span>
-                </div>
-                <div className="w-full">
-                  <Progress className="text-white" value={reading.value}/>
-                </div>
-              </div>
-            ))}
-            {/* Trash can
-            <div className="bg-yellow-500 rounded-lg p-4 flex flex-col items-center gap-2 w-full text-white">
-              <div className="flex items-center gap-2">
-                <Trash size={20} />
-                <span>Trash can</span>
-                <span>65% full</span>
-              </div>
-              <div className="w-full row-span-2">
-                <Progress className="text-white" value={65}/>
-              </div>
-              <span className="text-sm">Needs emptying in about: 34min.</span>
-            </div> */}
-
-            
+            {readings.map((reading) => {
+              if (reading.name.includes(type)) {
+                return (
+                  <div
+                    key={reading.id}
+                    className={`bg-blue-400 rounded-lg p-4 grid grid-rows-[1fr_auto] items-center gap-2 w-full text-white h-32`}
+                  >
+                    <div className="grid grid-cols-[auto_1fr] items-center gap-2">
+                      {type === "Trash" && <Trash size={40}/>}
+                      {type === "Light" && <Lamp size={40}/>}
+                      {type === "Soil" && <Droplet size={40}/>}
+                      <div className="flex flex-col text-lg">
+                        <span>{reading.name}</span>
+                        <span>
+                          Status:{" "}
+                          {reading.unit === "Binary"
+                            ? reading.value === 1
+                              ? "ON"
+                              : "OFF"
+                            : reading.value + " " + reading.unit}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="w-full">
+                      <Progress className="text-white" value={reading.value} />
+                    </div>
+                  </div>
+                );
+              }
+            })}
           </motion.div>
         )}
       </motion.div>
-      
     </>
   );
 };

@@ -2,23 +2,23 @@ import { Info, TriangleAlert } from "lucide-react";
 import { Progress } from "./ui/progress";
 
 interface AlarmInfoProps {
-  severity: "low" | "medium" | "high";
+  severity: number;
   name: string;
   value: number;
 }
 
 const AlarmInfo = ({ name, value, severity }: AlarmInfoProps) => {
   return (
-    <div className={`p-4 flex flex-col items-center gap-2 w-full text-white ${severity === "low" ? "bg-blue-300" : severity === "medium" ? "bg-yellow-300" : "bg-red-300"}`}>
+    <div className={`p-4 flex flex-col items-center gap-2 w-full text-white ${severity === 1 ? "bg-blue-300" : severity === 2 ? "bg-yellow-300" : "bg-red-300"}`}>
       <div className="flex items-center gap-2">
         {
-          severity === "low" && <Info />
+          severity === 1 && <Info />
         }
         {
-          severity === "medium" && <TriangleAlert />
+          severity === 2 && <TriangleAlert />
         }
         {
-          severity === "high" && <TriangleAlert />
+          severity === 3 && <TriangleAlert />
         }
         <span>{name}</span>
         <span>{value}% full</span>
