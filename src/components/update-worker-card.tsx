@@ -5,6 +5,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -30,7 +31,7 @@ const UpdateWorkerCard = forwardRef<HTMLDivElement, UpdateUserCardProps>(
 
     const handleUpdateUser = () => {
       console.log("Updating user");
-    }
+    };
 
     return (
       <div
@@ -69,15 +70,16 @@ const UpdateWorkerCard = forwardRef<HTMLDivElement, UpdateUserCardProps>(
                 onChange={(e) => setLastName(e.target.value)}
               />
             </div>
-            <div className="flex gap-2">
-              
-            </div>
-            
-            <Button onClick={handleUpdateUser} className="mt-4">
+          </CardContent>
+          <CardFooter className="flex justify-end">
+            <Button
+              onClick={handleUpdateUser}
+              className="mt-4 rounded-full bg-blue-400"
+            >
               {/* {updateing && <LoaderCircle className="h-4 w-4 animate-spin"/>} */}
               Update Worker
             </Button>
-          </CardContent>
+          </CardFooter>
         </Card>
       </div>
     );

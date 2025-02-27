@@ -23,8 +23,8 @@ const DeleteWorkerDialog: React.FC<DeleteWorkerDialogProps> = ({ workerToDelete,
           <CardDescription>This worker {workerToDelete?.firstName} {workerToDelete?.lastName} will be deleted from our servers!</CardDescription>
         </CardHeader>
         <CardContent className="flex justify-end content-end">
-          <Button variant="outline" onClick={onClose} className="me-4">Cancel</Button>
-          <Button variant="destructive" onClick={handleDeleteUser}>
+          <Button variant="outline" onClick={onClose} className="me-4 rounded-full">Cancel</Button>
+          <Button className="rounded-full" variant="destructive" onClick={handleDeleteUser}>
             <Trash2 className="w-4 h-4" />
             Delete
           </Button>

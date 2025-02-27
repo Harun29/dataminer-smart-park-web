@@ -4,6 +4,7 @@ import ReadingType from "@/types/ReadingType";
 import {
   AdvancedMarker,
   APIProvider,
+  InfoWindow,
   Map,
 } from "@vis.gl/react-google-maps";
 import {
@@ -17,6 +18,7 @@ import {
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import zones from "./zones";
+import { Polygon } from "./polygon";
 
 const MapView = () => {
   const [zoom, setZoom] = useState(18);
@@ -225,6 +227,16 @@ const MapView = () => {
             </AdvancedMarker>
           );
         })}
+        {zones.map((zone) => (
+          <Polygon
+            key={zone.id}
+            fillColor="#7DA5F5"
+            fillOpacity={0.2}
+            strokeColor={"#7DA5F5"}
+            strokeWeight={1}
+            paths={zone.points.map((point) => ({ lat: point.lat, lng: point.lng }))}
+          />
+        ))}
       </Map>
     </APIProvider>
   );
