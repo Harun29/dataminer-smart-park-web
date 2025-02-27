@@ -4,7 +4,7 @@ type UserType = {
   firstName: string;
   lastName: string;
   zone: string;
-  role: string;
+  uloga: string;
 };
 
 export default UserType;

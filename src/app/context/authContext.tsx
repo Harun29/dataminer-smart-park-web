@@ -24,33 +24,46 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const parsedUser = JSON.parse(storedUser);
       setUser(parsedUser);
       setIsAdmin(parsedUser.role === "admin");
-      setLoading(false);     
+      setLoading(false);
     }
   }, []);
-  
+
   const login = async (email: string, password: string) => {
-    const dummyUser: UserType = {
-      id: "1",
-      email,
-      firstName: "John",
-      lastName: "Doe",
-      zone: "A",
-      role: email === "admin@example.com" ? "admin" : "worker",
-    };
-    
-    localStorage.setItem("user", JSON.stringify(dummyUser));
-    setUser(dummyUser);
-    setIsAdmin(dummyUser.role === "admin");
-    setLoading(false);     
+    try {
+      console.log("Logging in...");
+      const response = await fetch(
+        `https://localhost:7206/api/Korisnik/login?email=${email}&password=${password}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status !== 200) {
+        throw new Error(`${response.status}`);
+      }
+      
+      const data = (await response.json()) as UserType;
+      setUser(data);
+      setIsAdmin(data.uloga === "Admin");
+      localStorage.setItem("user", JSON.stringify(data));
+      setLoading(false);
+    } catch (err) {
+      throw new Error(`HTTP error! status: ${err}`);
+    }
   };
-  
+
   const logout = () => {
     localStorage.removeItem("user");
     setUser(null);
     setIsAdmin(false);
   };
-  
-  
+
+  useEffect(() => {
+    user && console.log("user: ", user);
+  }, [user]);
 
   return (
     <AuthContext.Provider value={{ user, isAdmin, login, logout, loading }}>

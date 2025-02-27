@@ -28,7 +28,6 @@ export const AlarmsProvider: React.FC<AlarmsProviderProps> = ({ children }) => {
     }
   };
 
-
   useEffect(() => {
     fetchSensorReadings();
   }, []);

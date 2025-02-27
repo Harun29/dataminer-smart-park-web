@@ -17,14 +17,14 @@ const AuthenticatedLayout = ({ children }: { children: React.ReactNode }) => {
     }
   }, [user, router]);
 
-  if (loading) {
-    return null;
-  }
-
+  
   if (!user) {
     return <LoginPage />;
   }
-
+  
+  if (loading) {
+    return null;
+  }
   return (
     <div>
       {children}

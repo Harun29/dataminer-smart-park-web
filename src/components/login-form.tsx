@@ -25,13 +25,7 @@ export function LoginForm({
     try {
       await login(email, password);
     } catch (err) {
-      if (
-        (err as Error).message === "Firebase: Error (auth/invalid-credential)."
-      ) {
-        setError("Invalid email or password!");
-      } else {
-        setError((err as Error).message || "Failed to login");
-      }
+      setError("Invalid email or password!");
     }
   };
 
@@ -70,6 +64,9 @@ export function LoginForm({
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
+              {error && (
+                <div className="text-red-500 text-sm text-start">{error}</div>
+              )}
               <Button onClick={handleLogin} type="submit" className="w-full rounded-full bg-blue-400">
                 Login
               </Button>
