@@ -15,7 +15,7 @@ const SensorInfo = ({ name, value }: SensorInfoProps) => {
         <span>{value}% full</span>
       </div>
       <div className="w-full row-span-2">
-        <Progress className="text-white" value={value} />
+        <Progress className="text-white" value={value}/>
       </div>
       <span className="text-sm">Needs attention in about: 34min.</span>
     </div>

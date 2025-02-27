@@ -87,7 +87,9 @@ const SensorInfo = ({ type = "default" }: SensorInfoProps) => {
                       </div>
                     </div>
                     <div className="w-full">
-                      <Progress className="text-white" value={reading.value} />
+                      {type !== "Light" ? <Progress className="text-white" value={reading.value} /> : 
+                      <div className={`w-5 h-5 rounded-full ${reading.value === 1 ? "bg-green-500" : "bg-red-500"}`}></div>
+                      }
                     </div>
                   </div>
                 );

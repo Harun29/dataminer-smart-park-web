@@ -1,19 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { MenuButton } from "./menu-button";
 import {
+  CloudRain,
+  EqualApproximately,
   Info,
   ParkingCircle,
+  ShieldPlus,
   Sun,
   Thermometer,
   Users,
+  Wind,
   Zap,
 } from "lucide-react";
+import { useSensors } from "@/app/context/sensorsContext";
 
 const BasicInfo = () => {
   const [openSidebar, setOpenSidebar] = useState(false);
+  const {basicInfo, totalVisitors} = useSensors();
+
+  useEffect(() =>{
+    basicInfo && console.log("basic info: ", basicInfo)
+  }, [])
 
   return (
     <>
@@ -63,25 +73,19 @@ const BasicInfo = () => {
             transition={{ delay: 0.2 }}
             className="mt-6 grid gap-4 opacity-0 text-xs font-semibold"
           >
+            {basicInfo.map((info, index) => (
+              <div key={index} className="flex items-center gap-2 text-lg">
+                {info.unit === "°C" && <Thermometer size={20} />}
+                {info.unit === "AQI" && <EqualApproximately size={20} />}
+                {info.unit === "UV Index" && <ShieldPlus size={20} />}
+                {info.unit === "mm/hr" && <CloudRain size={20} />}
+                {info.unit === "km/h" && <Wind size={20} />}
+                {info.unit !== "%" && `${info.name}: ${info.value} ${info.unit}`}
+              </div>
+            ))}
             <div className="flex items-center gap-2 text-lg">
               <Users size={20} />
-              Total visitors: 123
-            </div>
-            <div className="flex items-center gap-2 text-lg">
-              <Thermometer size={20} />
-              Temperature: 22°C
-            </div>
-            <div className="flex items-center gap-2 text-lg">
-              <Sun size={20} />
-              Weather: Sunny
-            </div>
-            <div className="flex items-center gap-2 text-lg">
-              <Zap size={20} />
-              UV Index: 5
-            </div>
-            <div className="flex items-center gap-2 text-lg">
-              <ParkingCircle size={20} />
-              Parking status: 3/5 occupied
+              Total visitors: {totalVisitors}
             </div>
           </motion.div>
         )}

@@ -20,7 +20,7 @@ export default function Home() {
         <SensorInfo type="Light" />
         <SensorInfo type="Soil" />
       </div>
-        <ElectricityInfo consumption={50} production={40} />
+        <ElectricityInfo />
     </div>
   );
 }
