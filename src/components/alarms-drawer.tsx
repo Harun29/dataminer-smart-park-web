@@ -28,6 +28,7 @@ import {
   SelectValue,
 } from "./ui/select";
 import { Progress } from "./ui/progress";
+import { useAuth } from "@/app/context/authContext";
 
 interface Alarm {
   id: number;
@@ -37,6 +38,8 @@ interface Alarm {
 }
 
 const AlarmsDrawer = () => {
+  const { isAdmin } = useAuth();
+
   const [alarms, setAlarms] = useState<Alarm[]>([
     { id: 1, name: "Trash Can", value: 65, severity: "low" },
     { id: 2, name: "Light2", value: 0, severity: "medium" },
@@ -94,8 +97,12 @@ const AlarmsDrawer = () => {
                 >
                   <div className="flex flex-col items-center gap-2">
                     {alarm.severity === "low" && <Info className="h-16 w-16" />}
-                    {alarm.severity === "medium" && <TriangleAlert className="h-16 w-16" />}
-                    {alarm.severity === "high" && <TriangleAlert className="h-16 w-16" />}
+                    {alarm.severity === "medium" && (
+                      <TriangleAlert className="h-16 w-16" />
+                    )}
+                    {alarm.severity === "high" && (
+                      <TriangleAlert className="h-16 w-16" />
+                    )}
                     <span>{alarm.name}</span>
                     <span>{alarm.value}% full</span>
                   </div>
@@ -105,7 +112,11 @@ const AlarmsDrawer = () => {
                 </div>
 
                 <Dialog>
-                  <DialogTrigger disabled={alarm.severity === "low"} className="h-1/5 w-full" asChild>
+                  <DialogTrigger
+                    disabled={alarm.severity === "low"}
+                    className="h-1/5 w-full"
+                    asChild
+                  >
                     <Button
                       variant="ghost"
                       onClick={() => assignToWorker(alarm.id)}
@@ -115,21 +126,29 @@ const AlarmsDrawer = () => {
                   </DialogTrigger>
                   <DialogContent>
                     <DialogHeader>
-                      <DialogTitle>Assign this to a worker!</DialogTitle>
+                      <DialogTitle>
+                        {isAdmin
+                          ? "Assign this to a worker!"
+                          : "Assign this to yourself!"}
+                      </DialogTitle>
                       <DialogDescription>
-                        Pick a worker this will be assigned to. They will be notified immediately.
+                        {isAdmin
+                          ? "Pick a worker this will be assigned to. They will be notified immediately."
+                          : "Assign this alarm to yourself. You will be notified imidiately."}
                       </DialogDescription>
-                      <Select>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a worker" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="1">John Doe</SelectItem>
-                          <SelectItem value="2">Jane Doe</SelectItem>
-                          <SelectItem value="3">Alice</SelectItem>
-                          <SelectItem value="4">Bob</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      {isAdmin && (
+                        <Select>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a worker" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="1">John Doe</SelectItem>
+                            <SelectItem value="2">Jane Doe</SelectItem>
+                            <SelectItem value="3">Alice</SelectItem>
+                            <SelectItem value="4">Bob</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      )}
                     </DialogHeader>
                     <DialogFooter>
                       <Button>Assign</Button>
