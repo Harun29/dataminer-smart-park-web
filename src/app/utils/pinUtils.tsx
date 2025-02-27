@@ -28,6 +28,9 @@ export const getPinIcon = (sensorType: string) => {
 };
 
 export const getPinPosition = (reading: ReadingType) => {
-  const [lat, lng] = reading.coordinates.split(",").map(Number);
+  const [lat, lng] = reading.coordinates.split(", ").map(Number);
+  if(lat === 0 || lng === 0) {
+    return { id: reading.id, lat: 43.84826298213925, lng: 18.335363239634667, sensorType: reading.sensorType };
+  }
   return { id: reading.id, lat, lng, sensorType: reading.sensorType };
 };

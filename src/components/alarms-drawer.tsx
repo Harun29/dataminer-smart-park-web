@@ -29,38 +29,18 @@ import {
 } from "./ui/select";
 import { Progress } from "./ui/progress";
 import { useAuth } from "@/app/context/authContext";
+import { useAlarms } from "@/app/context/alarmsContexts";
 
-interface Alarm {
-  id: number;
-  name: string;
-  value: number;
-  severity: "low" | "medium" | "high";
-}
 
 const AlarmsDrawer = () => {
   const { isAdmin } = useAuth();
-
-  const [alarms, setAlarms] = useState<Alarm[]>([
-    { id: 1, name: "Trash Can", value: 65, severity: "low" },
-    { id: 2, name: "Light2", value: 0, severity: "medium" },
-    { id: 3, name: "Bench1", value: 33, severity: "high" },
-    { id: 4, name: "Light2", value: 0, severity: "medium" },
-    { id: 5, name: "Light2", value: 0, severity: "medium" },
-    { id: 6, name: "Bench1", value: 33, severity: "high" },
-    { id: 7, name: "Bench1", value: 33, severity: "high" },
-    { id: 8, name: "Light2", value: 0, severity: "medium" },
-    { id: 9, name: "Bench1", value: 33, severity: "high" },
-    { id: 10, name: "Bench1", value: 33, severity: "high" },
-    { id: 11, name: "Trash Can", value: 65, severity: "low" },
-    { id: 12, name: "Bench1", value: 33, severity: "high" },
-    { id: 13, name: "Bench1", value: 66, severity: "low" },
-  ]);
+  const {alarms} = useAlarms();
 
   const assignToWorker = (alarmId: number) => {
     console.log(`Assigning alarm ${alarmId} to user`);
   };
 
-  return (
+  return (alarms &&
     <Drawer>
       <DrawerTrigger asChild className="fixed bottom-4 right-4">
         <Button
@@ -88,32 +68,32 @@ const AlarmsDrawer = () => {
               >
                 <div
                   className={`p-4 flex flex-col items-center gap-2 w-full h-4/5 text-white ${
-                    alarm.severity === "low"
+                    alarm.level === 0
                       ? "bg-blue-300"
-                      : alarm.severity === "medium"
+                      : alarm.level === 1
                       ? "bg-yellow-300"
                       : "bg-red-300"
                   }`}
                 >
                   <div className="flex flex-col items-center gap-2">
-                    {alarm.severity === "low" && <Info className="h-16 w-16" />}
-                    {alarm.severity === "medium" && (
+                    {alarm.level === 1 && <Info className="h-16 w-16" />}
+                    {alarm.level === 2 && (
                       <TriangleAlert className="h-16 w-16" />
                     )}
-                    {alarm.severity === "high" && (
+                    {alarm.level === 3 && (
                       <TriangleAlert className="h-16 w-16" />
                     )}
-                    <span>{alarm.name}</span>
-                    <span>{alarm.value}% full</span>
+                    <span>{alarm.sensorType}</span>
+                    <span>{alarm.capacity}% full</span>
                   </div>
                   <div className="w-full">
-                    <Progress className="text-white" value={alarm.value} />
+                    <Progress className="text-white" value={alarm.capacity} />
                   </div>
                 </div>
 
                 <Dialog>
                   <DialogTrigger
-                    disabled={alarm.severity === "low"}
+                    disabled={alarm.level === 0}
                     className="h-1/5 w-full"
                     asChild
                   >

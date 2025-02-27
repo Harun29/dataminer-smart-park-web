@@ -11,6 +11,7 @@ import {
 import { useState } from "react";
 import { MenuButton } from "./menu-button";
 import { Progress } from "./ui/progress";
+import {  useSensors} from "@/app/context/sensorsContext";
 
 interface SensorInfoProps {
   type?: string;
@@ -18,6 +19,7 @@ interface SensorInfoProps {
 
 const SensorInfo = ({ type = "default" }: SensorInfoProps) => {
   const [openSidebar, setOpenSidebar] = useState(false);
+  const {readings} = useSensors();
 
   return (
     <>
@@ -69,7 +71,18 @@ const SensorInfo = ({ type = "default" }: SensorInfoProps) => {
             transition={{ delay: 0.2 }}
             className="mt-6 grid gap-4 opacity-0 text-xs font-semibold overflow-y-scroll custom-scrollbar w-full h-[calc(100%-48px)]"
           >
-            {/* Trash can */}
+            {readings.map((reading) => (
+              <div key={reading.id} className="bg-gray-100 rounded-lg p-4 flex flex-col items-center gap-2 w-full text-white">
+                <div className="flex items-center gap-2">
+                  <span>{reading.name}</span>
+                  <span>{reading.value} {reading.unit}</span>
+                </div>
+                <div className="w-full">
+                  <Progress className="text-white" value={reading.value}/>
+                </div>
+              </div>
+            ))}
+            {/* Trash can
             <div className="bg-yellow-500 rounded-lg p-4 flex flex-col items-center gap-2 w-full text-white">
               <div className="flex items-center gap-2">
                 <Trash size={20} />
@@ -80,70 +93,9 @@ const SensorInfo = ({ type = "default" }: SensorInfoProps) => {
                 <Progress className="text-white" value={65}/>
               </div>
               <span className="text-sm">Needs emptying in about: 34min.</span>
-            </div>
+            </div> */}
 
-            {/* Light1 */}
-            <div className="bg-green-500 rounded-lg p-4 flex flex-col items-center gap-2 w-full text-white">
-              <div className="flex items-center gap-2">
-                <Lamp size={20} />
-                <span>Light1</span>
-                <span>Operational</span>
-              </div>
-              <div className="w-full row-span-2">
-                <Progress value={100} />
-              </div>
-              <span className="text-sm">All good</span>
-            </div>
-            {/* Light2 */}
-            <div className="bg-red-500 rounded-lg p-4 flex flex-col items-center gap-2 w-full text-white">
-              <div className="flex items-center gap-2">
-                <Lamp size={20} />
-                <span>Light2</span>
-                <span>Failed</span>
-              </div>
-              <div className="w-full row-span-2">
-                <Progress value={0} />
-              </div>
-              <span className="text-sm">Needs replacement</span>
-            </div>
-
-            {/* Bench1 */}
-            <div className="bg-blue-500 rounded-lg p-4 flex flex-col items-center gap-2 w-full text-white">
-              <div className="flex items-center gap-2">
-                <RockingChair size={20} />
-                <span>Bench1</span>
-                <span>Occupied 2/3</span>
-              </div>
-              <div className="w-full row-span-2">
-                <Progress value={66} />
-              </div>
-              <span className="text-sm">In use</span>
-            </div>
-            {/* Bench3 */}
-            <div className="bg-yellow-500 rounded-lg p-4 flex flex-col items-center gap-2 w-full text-white">
-              <div className="flex items-center gap-2">
-                <RockingChair size={20} />
-                <span>Bench3</span>
-                <span>Free</span>
-              </div>
-              <div className="w-full row-span-2">
-                <Progress value={0} />
-              </div>
-              <span className="text-sm">Available</span>
-            </div>
-
-            {/* Ground */}
-            <div className="bg-gray-600 rounded-lg p-4 mb-3 flex flex-col items-center gap-2 w-full text-white">
-              <div className="flex items-center gap-2">
-                <Triangle size={20} />
-                <span>Ground</span>
-                <span>Dry</span>
-              </div>
-              <div className="w-full row-span-2">
-                <Progress value={0} />
-              </div>
-              <span className="text-sm">No moisture detected</span>
-            </div>
+            
           </motion.div>
         )}
       </motion.div>
