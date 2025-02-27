@@ -5,7 +5,8 @@ import {
   Lamp,
   RockingChair,
   Trash,
-  Triangle
+  Triangle,
+  Zap
 } from "lucide-react";
 import { useState } from "react";
 import { MenuButton } from "./menu-button";
@@ -39,6 +40,7 @@ const SensorInfo = ({ type = "default" }: SensorInfoProps) => {
           {type === "Light" && <Lamp size={openSidebar ? 24 : 20} />}
           {type === "Bench" && <RockingChair size={openSidebar ? 24 : 20} />}
           {type === "Fountain" && <Triangle size={openSidebar ? 24 : 20} />}
+          {type === "Power" && <Zap size={openSidebar ? 24 : 20} />}
           <motion.h1
             animate={{
               fontSize: openSidebar ? "24px" : "14px",

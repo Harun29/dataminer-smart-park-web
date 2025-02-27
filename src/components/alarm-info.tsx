@@ -1,4 +1,4 @@
-import { Info, Trash, TriangleAlert } from "lucide-react";
+import { Info, TriangleAlert } from "lucide-react";
 import { Progress } from "./ui/progress";
 
 interface AlarmInfoProps {

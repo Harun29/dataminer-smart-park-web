@@ -1,6 +1,7 @@
 "use client";
 
 import BasicInfo from "@/components/basic-info";
+import ElectricityInfo from "@/components/electricity-info";
 import MapView from "@/components/map/map";
 import SensorInfo from "@/components/sensors-info";
 import { useCallback, useState } from "react";
@@ -20,6 +21,7 @@ export default function Home() {
         <SensorInfo type="Bench" />
         <SensorInfo type="Fountain" />
       </div>
+        <ElectricityInfo consumption={50} production={40} />
     </div>
   );
 }
