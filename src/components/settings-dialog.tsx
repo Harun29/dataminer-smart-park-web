@@ -1,9 +1,8 @@
 "use client";
 
-import * as React from "react";
-import { CheckCircle2, Droplet, Lamp, Trash, Triangle } from "lucide-react";
-import { useState, useEffect } from "react";
 import ThresholdType from "@/types/ThresholdType";
+import { CheckCircle2, Droplet, Lamp, Loader2, Trash, Triangle } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,8 +15,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
-import { Slider } from "./ui/slider";
+import { Input } from "./ui/input";
 import {
   Select,
   SelectContent,
@@ -25,7 +23,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { Input } from "./ui/input";
 
 const data = {
   nav: [
@@ -69,6 +66,7 @@ export function SettingsDialog({
   const [infoValue, setInfoValue] = useState("0");
   const [warningValue, setWarningValue] = useState("0");
   const [urgentValue, setUrgentValue] = useState("0");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchThresholds = async () => {
@@ -108,6 +106,7 @@ export function SettingsDialog({
   }, [selectedType]);
 
   const handleSave = async () => {
+    setLoading(true); // Set loading to true
     const updateThresholds = async (id: number, limit: number, type: number ) => {
       try {
         console.log("id: ", id, "limit: ", limit, "type: ", type);
@@ -141,6 +140,7 @@ export function SettingsDialog({
       });
   
     await Promise.all(promises);
+    setLoading(false);
   };
 
   return (
@@ -205,8 +205,8 @@ export function SettingsDialog({
           </div>
         </div>
         <DialogFooter>
-          <Button onClick={handleSave} className="mt-4 rounded-full">
-            <CheckCircle2 />
+          <Button onClick={handleSave} className="mt-4 rounded-full" disabled={loading}>
+            {loading ? <Loader2 className="animate-spin" /> : <CheckCircle2 />}
             Save
           </Button>
         </DialogFooter>

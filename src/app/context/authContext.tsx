@@ -20,10 +20,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
+    const storedIsAdmin = localStorage.getItem("isAdmin");
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       setUser(parsedUser);
-      setIsAdmin(parsedUser.role === "admin");
+      setIsAdmin(storedIsAdmin === "true");
       setLoading(false);
     }
   }, []);
@@ -47,8 +48,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       
       const data = (await response.json()) as UserType;
       setUser(data);
-      setIsAdmin(data.uloga === "Admin");
+      const isAdmin = data.uloga === "Admin";
+      setIsAdmin(isAdmin);
       localStorage.setItem("user", JSON.stringify(data));
+      localStorage.setItem("isAdmin", JSON.stringify(isAdmin));
       setLoading(false);
     } catch (err) {
       throw new Error(`HTTP error! status: ${err}`);
@@ -57,6 +60,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("isAdmin");
     setUser(null);
     setIsAdmin(false);
   };
