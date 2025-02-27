@@ -1,7 +1,7 @@
 type AlarmType = {
     id: number;
-    sensorId: number;
-    sensorType: string;
+    senzorId: number;
+    senyorType: string;
     level: number;
     capacity: number;
     consumption: string;

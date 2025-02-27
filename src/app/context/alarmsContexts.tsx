@@ -7,6 +7,7 @@ import { useAuth } from './authContext';
 type AlarmsContextType = {
   alarms: AlarmType[];
   myAlarms: AlarmType[];
+  setMyAlarms: React.Dispatch<React.SetStateAction<AlarmType[]>>;
   fetchSensorReadings: () => Promise<void>;
 };
 
@@ -29,22 +30,35 @@ export const AlarmsProvider: React.FC<AlarmsProviderProps> = ({ children }) => {
         throw new Error('HTTP error! status: ' + response.status);
       }
       const data = await response.json() as AlarmType[];
-      if (user) {
-        const myData = data.filter((alarm) => alarm.korisnikId === Number(user.id));
-        setMyAlarms(myData);
-      }
       setAlarms(data);
     } catch (err) {
       console.log(err);
     }
   };
+  
+  const fetchMyAlarms = async () => {
+    try {
+      console.log("Fetching alarms readings...");
+      const response = await fetch(`https://localhost:7206/api/Alarm/getByUserId?userId=${user?.id}`);
+      if(!response.ok) {
+        throw new Error('HTTP error! status: ' + response.status);
+      }
+      const data = await response.json() as AlarmType[];
+      setMyAlarms(data);
+      
+    } catch (err) {
+      console.log(err);
+    }
+
+  }
 
   useEffect(() => {
     fetchSensorReadings();
-  }, []);
+    user && fetchMyAlarms();
+  }, [user]);
 
   return (
-    <AlarmsContext.Provider value={{ alarms, myAlarms, fetchSensorReadings }}>
+    <AlarmsContext.Provider value={{ alarms, myAlarms, setMyAlarms, fetchSensorReadings }}>
       {children}
     </AlarmsContext.Provider>
   );

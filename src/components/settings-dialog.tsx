@@ -1,7 +1,7 @@
 "use client";
 
 import ThresholdType from "@/types/ThresholdType";
-import { CheckCircle2, Loader2 } from "lucide-react";
+import { CheckCircle2, Loader2, Terminal } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -23,7 +23,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-
+import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
+import { Label } from "./ui/label";
 
 export function SettingsDialog({
   open,
@@ -34,11 +35,14 @@ export function SettingsDialog({
 }) {
   const [thresholds, setThresholds] = useState<ThresholdType[]>([]);
   const [selectedType, setSelectedType] = useState<string>();
+  const [limits, setLimits] = useState<number[]>([]);
   const [uniqueSensorTypes, setUniqueSensorTypes] = useState<string[]>([]);
   const [infoValue, setInfoValue] = useState("0");
   const [warningValue, setWarningValue] = useState("0");
   const [urgentValue, setUrgentValue] = useState("0");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {}, [selectedType]);
 
   useEffect(() => {
     const fetchThresholds = async () => {
@@ -64,6 +68,21 @@ export function SettingsDialog({
   }, []);
 
   useEffect(() => {
+    const fetchLimits = async () => {
+      try {
+        console.log("Fetching limits...");
+        const response = await fetch(
+          `https://localhost:7206/api/Treshold/GetLimits?type=${selectedType}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch thresholds");
+        }
+        const data = (await response.json()) as number[];
+        setLimits(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
     if (selectedType) {
       const selectedThresholds = thresholds
         .filter((item) => item.deviceName === selectedType)
@@ -74,12 +93,17 @@ export function SettingsDialog({
         setWarningValue(selectedThresholds[1].limit.toString());
         setUrgentValue(selectedThresholds[2].limit.toString());
       }
+      fetchLimits();
     }
   }, [selectedType]);
 
   const handleSave = async () => {
     setLoading(true);
-    const updateThresholds = async (id: number, limit: number, type: number ) => {
+    const updateThresholds = async (
+      id: number,
+      limit: number,
+      type: number
+    ) => {
       try {
         console.log("id: ", id, "limit: ", limit, "type: ", type);
         const response = await fetch(
@@ -92,7 +116,7 @@ export function SettingsDialog({
             body: JSON.stringify({ id, limit, type }),
           }
         );
-  
+
         if (!response.ok) {
           throw new Error("Failed to update threshold");
         }
@@ -100,17 +124,25 @@ export function SettingsDialog({
         console.error(err);
       }
     };
-  
-    const values = [parseInt(infoValue), parseInt(warningValue), parseInt(urgentValue)];
+
+    const values = [
+      parseInt(infoValue),
+      parseInt(warningValue),
+      parseInt(urgentValue),
+    ];
     let typeCounter = 1;
     const promises = thresholds
       .filter((item) => item.deviceName === selectedType)
       .map((item, index) => {
-        const promise = updateThresholds(item.id, values[index % values.length], typeCounter);
+        const promise = updateThresholds(
+          item.id,
+          values[index % values.length],
+          typeCounter
+        );
         typeCounter++;
         return promise;
       });
-  
+
     await Promise.all(promises);
     setLoading(false);
   };
@@ -155,29 +187,53 @@ export function SettingsDialog({
               Set the threshold for {selectedType} alerts.
             </p>
             <div className="flex w-full gap-2">
-              <Input
-                placeholder="info"
-                className="bg-blue-300"
-                value={infoValue}
-                onChange={(e) => setInfoValue(e.target.value)}
-              />
-              <Input
-                placeholder="warning"
-                className="bg-yellow-300"
-                value={warningValue}
-                onChange={(e) => setWarningValue(e.target.value)}
-              />
-              <Input
-                placeholder="urgent"
-                className="bg-red-300"
-                value={urgentValue}
-                onChange={(e) => setUrgentValue(e.target.value)}
-              />
+              <div>
+                <Label className="text-muted-foreground">Info</Label>
+                <Input
+                  placeholder="info"
+                  className="bg-blue-300"
+                  value={infoValue}
+                  onChange={(e) => setInfoValue(e.target.value)}
+                />
+              </div>
+              <div>
+                <Label className="text-muted-foreground">Warning</Label>
+                <Input
+                  placeholder="warning"
+                  className="bg-yellow-300"
+                  value={warningValue}
+                  onChange={(e) => setWarningValue(e.target.value)}
+                />
+              </div>
+              <div>
+                <Label className="text-muted-foreground">Urgent</Label>
+                <Input
+                  placeholder="urgent"
+                  className="bg-red-300"
+                  value={urgentValue}
+                  onChange={(e) => setUrgentValue(e.target.value)}
+                />
+              </div>
             </div>
+            <Alert className="mt-4">
+              <Terminal className="h-4 w-4" />
+              <AlertTitle>How does this work?</AlertTitle>
+              <AlertDescription>
+                The thresholds for this sensor type is set in range from{" "}
+                <strong>{limits[0]}</strong> to <strong>{limits[1]}</strong>.
+                The <strong>info</strong> threshold is the lowest value, the{" "}
+                <strong>warning</strong> threshold is the middle value, and the{" "}
+                <strong>urgent</strong> threshold is the highest value.
+              </AlertDescription>
+            </Alert>
           </div>
         </div>
         <DialogFooter>
-          <Button onClick={handleSave} className="mt-4 rounded-full" disabled={loading}>
+          <Button
+            onClick={handleSave}
+            className="rounded-full"
+            disabled={loading}
+          >
             {loading ? <Loader2 className="animate-spin" /> : <CheckCircle2 />}
             Save
           </Button>

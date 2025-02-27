@@ -56,7 +56,6 @@ const MapView = () => {
           onCenterChanged={(e) => handleCenterChanged(e)}
           onZoomChanged={(e) => handleZoomChange(e)}
           clickableIcons={false}
-          mapTypeControl={false}
           fullscreenControl={false}
         >
           {readings.map((reading) => (
