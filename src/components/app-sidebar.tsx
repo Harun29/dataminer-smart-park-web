@@ -31,7 +31,7 @@ const data = {
   },
   teams: [
     {
-      name: "Data Miner SPO",
+      name: "DataMiner SPO",
       logo: GalleryVerticalEnd,
       plan: "Smart Park Ops",
     },

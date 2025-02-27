@@ -2,10 +2,8 @@
 
 import ReadingType from "@/types/ReadingType";
 import {
-  AdvancedMarker,
   APIProvider,
-  InfoWindow,
-  Map,
+  Map
 } from "@vis.gl/react-google-maps";
 import {
   CloudSunRain,
@@ -15,10 +13,10 @@ import {
   Trash,
   Triangle,
 } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import zones from "./zones";
+import { useCallback, useState } from "react";
+import MarkerWithPopover from "./marker-with-popover";
 import { Polygon } from "./polygon";
+import zones from "./zones";
 
 const MapView = () => {
   const [zoom, setZoom] = useState(18);
@@ -28,91 +26,22 @@ const MapView = () => {
   });
 
   const dummyData: ReadingType[] = [
-    {
-      id: 1,
-      name: "Sensor 1",
-      lowerBound: 0,
-      upperBound: 100,
-      value: 50,
-      unit: "C",
-      zone: "Zone 1",
-      sensorType: "Temperature",
-      coordinates: "43.84826298213925,18.335363239634667",
-      isActive: true,
-    },
-    {
-      id: 2,
-      name: "Sensor 2",
-      lowerBound: 0,
-      upperBound: 100,
-      value: 75,
-      unit: "C",
-      zone: "Zone 2",
-      sensorType: "Temperature",
-      coordinates: "43.84789179404418,18.334492415502588",
-      isActive: true,
-    },
-    {
-      id: 3,
-      name: "Trash Can 1",
-      lowerBound: 0,
-      upperBound: 100,
-      value: 30,
-      unit: "%",
-      zone: "Zone 3",
-      sensorType: "Trash Can",
-      coordinates: "43.848500,18.335200",
-      isActive: true,
-    },
-    {
-      id: 4,
-      name: "Weather Station 1",
-      lowerBound: 0,
-      upperBound: 100,
-      value: 20,
-      unit: "C",
-      zone: "Zone 4",
-      sensorType: "Weather",
-      coordinates: "43.848700,18.334700",
-      isActive: true,
-    },
-    {
-      id: 5,
-      name: "Soil Sensor 1",
-      lowerBound: 0,
-      upperBound: 100,
-      value: 40,
-      unit: "%",
-      zone: "Zone 5",
-      sensorType: "Soil",
-      coordinates: "43.848900,18.334200",
-      isActive: true,
-    },
-    {
-      id: 6,
-      name: "Fountain Sensor 1",
-      lowerBound: 0,
-      upperBound: 100,
-      value: 60,
-      unit: "L",
-      zone: "Zone 6",
-      sensorType: "Fountain",
-      coordinates: "43.847100,18.335100",
-      isActive: true,
-    },
-    {
-      id: 7,
-      name: "Lamp Sensor 1",
-      lowerBound: 0,
-      upperBound: 100,
-      value: 80,
-      unit: "Lux",
-      zone: "Zone 7",
-      sensorType: "Lamp",
-      coordinates: "43.849300,18.335300",
-      isActive: true,
-    },
-  ];
+    { id: 1, name: "Sensor 1", lowerBound: 0, upperBound: 100, value: 50, unit: "C", zone: "Zone 1", sensorType: "Temperature", coordinates: "43.84826298213925,18.335363239634667", isActive: true },
+    { id: 2, name: "Sensor 2", lowerBound: 0, upperBound: 100, value: 75, unit: "C", zone: "Zone 2", sensorType: "Temperature", coordinates: "43.84789179404418,18.334492415502588", isActive: true },
+    { id: 3, name: "Trash Can 1", lowerBound: 0, upperBound: 100, value: 30, unit: "%", zone: "Zone 3", sensorType: "Trash Can", coordinates: "43.848500,18.335200", isActive: true },
+    { id: 4, name: "Weather Station 1", lowerBound: 0, upperBound: 100, value: 20, unit: "C", zone: "Zone 4", sensorType: "Weather", coordinates: "43.848700,18.334700", isActive: true },
+    { id: 5, name: "Soil Sensor 1", lowerBound: 0, upperBound: 100, value: 40, unit: "%", zone: "Zone 5", sensorType: "Soil", coordinates: "43.848900,18.334200", isActive: true },
+    { id: 8, name: "Sensor 3", lowerBound: 0, upperBound: 100, value: 45, unit: "C", zone: "Zone 1", sensorType: "Temperature", coordinates: "43.849000,18.336000", isActive: true },
+    { id: 9, name: "Trash Can 2", lowerBound: 0, upperBound: 100, value: 50, unit: "%", zone: "Zone 3", sensorType: "Trash Can", coordinates: "43.848600,18.335500", isActive: true },
+    { id: 10, name: "Weather Station 2", lowerBound: -20, upperBound: 50, value: 18, unit: "C", zone: "Zone 4", sensorType: "Weather", coordinates: "43.849200,18.335800", isActive: true },
+    { id: 11, name: "Soil Sensor 2", lowerBound: 0, upperBound: 100, value: 35, unit: "%", zone: "Zone 5", sensorType: "Soil", coordinates: "43.849100,18.334900", isActive: true },
+    { id: 12, name: "Fountain Sensor 2", lowerBound: 0, upperBound: 100, value: 55, unit: "L", zone: "Zone 6", sensorType: "Fountain", coordinates: "43.847500,18.336000", isActive: true },
+    { id: 13, name: "Lamp Sensor 2", lowerBound: 0, upperBound: 100, value: 75, unit: "Lux", zone: "Zone 7", sensorType: "Lamp", coordinates: "43.848700,18.336500", isActive: true },
+    { id: 14, name: "Sensor 4", lowerBound: 0, upperBound: 100, value: 65, unit: "C", zone: "Zone 1", sensorType: "Temperature", coordinates: "43.847800,18.334900", isActive: true },
+    { id: 17, name: "Soil Sensor 3", lowerBound: 0, upperBound: 100, value: 47, unit: "%", zone: "Zone 5", sensorType: "Soil", coordinates: "43.847600,18.335400", isActive: true },
+    { id: 19, name: "Lamp Sensor 3", lowerBound: 0, upperBound: 100, value: 90, unit: "Lux", zone: "Zone 7", sensorType: "Lamp", coordinates: "43.847300,18.336100", isActive: true },
+    { id: 20, name: "Sensor 5", lowerBound: 0, upperBound: 100, value: 72, unit: "C", zone: "Zone 1", sensorType: "Temperature", coordinates: "43.848800,18.335100", isActive: true },
+];
 
   const handleCenterChanged = useCallback((e: any) => {
     setCenter(e.center);
@@ -158,75 +87,9 @@ const MapView = () => {
         mapTypeControl={false}
         fullscreenControl={false}
       >
-        {dummyData.map((reading) => {
-          const [open, setOpen] = useState(false);
-          const popoverRef = useRef<HTMLDivElement>(null);
-
-          useEffect(() => {
-            const handleClickOutside = (event: MouseEvent) => {
-              if (
-                popoverRef.current &&
-                !popoverRef.current.contains(event.target as Node)
-              ) {
-                setOpen(false);
-              }
-            };
-            document.addEventListener("mousedown", handleClickOutside);
-            return () => {
-              document.removeEventListener("mousedown", handleClickOutside);
-            };
-          }, []);
-
-          return (
-            <AdvancedMarker
-              onClick={() => setOpen(!open)}
-              key={getPinPosition(reading).id}
-              position={{
-                lat: getPinPosition(reading).lat,
-                lng: getPinPosition(reading).lng,
-              }}
-            >
-              <Popover open={open}>
-                <PopoverTrigger className="flex items-center justify-center w-7 h-7 bg-blue-400 text-white rounded-full shadow-lg hover:scale-125 transform transition-transform">
-                  {getPinIcon(reading.sensorType).icon}
-                </PopoverTrigger>
-                <PopoverContent className="p-0" ref={popoverRef}>
-                  <div className="bg-white p-6 rounded-lg shadow-md max-w-md mx-auto">
-                    <h3 className="text-2xl font-semibold text-gray-900 mb-6">
-                      {reading.name}
-                    </h3>
-                    <div className="space-y-4 text-gray-700">
-                      <p className="flex justify-between">
-                        <span className="font-medium">Value:</span>
-                        <span>
-                          {reading.value} {reading.unit}
-                        </span>
-                      </p>
-                      <p className="flex justify-between">
-                        <span className="font-medium">Zone:</span>
-                        <span>{reading.zone}</span>
-                      </p>
-                      <p className="flex justify-between">
-                        <span className="font-medium">Sensor Type:</span>
-                        <span>{reading.sensorType}</span>
-                      </p>
-                      <p className="flex justify-between">
-                        <span className="font-medium">Status:</span>
-                        <span
-                          className={`text-${
-                            reading.isActive ? "green" : "red"
-                          }-500`}
-                        >
-                          {reading.isActive ? "Active" : "Inactive"}
-                        </span>
-                      </p>
-                    </div>
-                  </div>
-                </PopoverContent>
-              </Popover>
-            </AdvancedMarker>
-          );
-        })}
+        {dummyData.map((reading) => (
+          <MarkerWithPopover key={reading.id} reading={reading} />
+        ))}
         {zones.map((zone) => (
           <Polygon
             key={zone.id}
