@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { PencilIcon } from "lucide-react";
+import { CheckCircle2, Loader2, PencilIcon } from "lucide-react";
 import { forwardRef, useState } from "react";
 import UserType from "@/types/UserType";
 
@@ -22,15 +22,33 @@ interface UpdateUserCardProps {
 const UpdateWorkerCard = forwardRef<HTMLDivElement, UpdateUserCardProps>(
   ({ user, onClose }, ref) => {
     const [email, setEmail] = useState(user.email);
-    const [firstName, setFirstName] = useState(user.firstName);
-    const [lastName, setLastName] = useState(user.lastName);
+    const [firstName, setFirstName] = useState(user.ime);
+    const [lastName, setLastName] = useState(user.prezime);
+    const [loading, setLoading] = useState(false);
 
     const handlePropagation = (event: React.MouseEvent) => {
       event.stopPropagation();
     };
 
-    const handleUpdateUser = () => {
-      console.log("Updating user");
+    const handleUpdateUser = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(`https://localhost:7206/api/Korisnik/${user.id}?Ime=${firstName}&Prezime=${lastName}&Email=${email}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        console.log("User updated successfully", data);
+      } catch (error) {
+        console.error("Error updating user", error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     return (
@@ -75,9 +93,9 @@ const UpdateWorkerCard = forwardRef<HTMLDivElement, UpdateUserCardProps>(
             <Button
               onClick={handleUpdateUser}
               className="mt-4 rounded-full bg-blue-400"
+              disabled={loading}
             >
-              {/* {updateing && <LoaderCircle className="h-4 w-4 animate-spin"/>} */}
-              Update Worker
+              {loading ? <Loader2 className="animate-spin" /> : <CheckCircle2 />}
             </Button>
           </CardFooter>
         </Card>
