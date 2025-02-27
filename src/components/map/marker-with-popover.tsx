@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { AdvancedMarker } from "@vis.gl/react-google-maps";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import ReadingType from "@/types/ReadingType";
-import { getPinIcon, getPinPosition } from "@/app/utils/utils";
+import { getPinIcon, getPinPosition } from "@/app/utils/pinUtils";
 
 type MarkerWithPopoverProps = {
   reading: ReadingType;
