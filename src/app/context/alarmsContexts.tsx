@@ -30,6 +30,7 @@ export const AlarmsProvider: React.FC<AlarmsProviderProps> = ({ children }) => {
         throw new Error('HTTP error! status: ' + response.status);
       }
       const data = await response.json() as AlarmType[];
+      console.log(data);
       setAlarms(data);
     } catch (err) {
       console.log(err);

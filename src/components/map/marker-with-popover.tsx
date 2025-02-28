@@ -3,6 +3,7 @@ import { AdvancedMarker } from "@vis.gl/react-google-maps";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import ReadingType from "@/types/ReadingType";
 import { getPinIcon, getPinPosition } from "@/app/utils/pinUtils";
+import { useAlarms } from "@/app/context/alarmsContexts";
 
 type MarkerWithPopoverProps = {
   reading: ReadingType;
@@ -11,6 +12,15 @@ type MarkerWithPopoverProps = {
 const MarkerWithPopover = ({ reading }: MarkerWithPopoverProps) => {
   const [open, setOpen] = useState(false);
   const popoverRef = useRef<HTMLDivElement>(null);
+  const { alarms } = useAlarms();
+  const [severity, setSeverity] = useState<number>(0);
+
+  useEffect(() => {
+    const alarm = alarms.find(alarm => alarm.senzorId === parseInt(reading.id));
+    if (alarm) {
+      setSeverity(alarm.level);
+    }
+  }, [alarms, reading.id]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -37,8 +47,11 @@ const MarkerWithPopover = ({ reading }: MarkerWithPopoverProps) => {
       }}
     >
       <Popover open={open}>
-        <PopoverTrigger className="flex items-center justify-center w-7 h-7 bg-blue-400 text-white rounded-full shadow-lg hover:scale-125 transform transition-transform">
-          {getPinIcon(reading.sensorType).icon}
+        <PopoverTrigger className={`flex items-center justify-center ${reading.name.includes("People") ? "w-16" : "w-7"} h-7 ${severity === 0 || severity === 1 ? "bg-blue-400" : severity === 2 ? "bg-yellow-400" : "bg-red-400"} text-white rounded-full shadow-lg hover:scale-125 transform transition-transform hover:z-50`}>
+          {getPinIcon(reading.name)?.icon}
+          {reading.name.includes("People") && (
+            <span className="ml-2 text-lg">{reading.value}</span>
+          )}
         </PopoverTrigger>
         <PopoverContent className="p-0" ref={popoverRef}>
           <div className="bg-white p-6 rounded-lg shadow-md max-w-md mx-auto">
@@ -49,19 +62,17 @@ const MarkerWithPopover = ({ reading }: MarkerWithPopoverProps) => {
               <p className="flex justify-between">
                 <span className="font-medium">Value:</span>
                 <span>
-                  {reading.value} {reading.unit}
+                  {reading.unit === "Binary" ? 
+                    (reading.value === 1 ? "ON" : "OFF") : reading.value + " " + reading.unit
+                  }
                 </span>
-              </p>
-              <p className="flex justify-between">
-                <span className="font-medium">Zone:</span>
-                <span>{reading.zone}</span>
               </p>
               <p className="flex justify-between">
                 <span className="font-medium">Sensor Type:</span>
                 <span>{reading.sensorType}</span>
               </p>
               <p className="flex justify-between">
-                <span className="font-medium">Status:</span>
+                <span className="font-medium">Sensor Status:</span>
                 <span
                   className={`text-${
                     reading.isActive ? "green" : "red"

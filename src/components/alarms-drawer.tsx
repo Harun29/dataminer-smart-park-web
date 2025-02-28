@@ -102,15 +102,15 @@ const AlarmsDrawer = () => {
                 >
                   <div
                     className={`p-4 flex flex-col items-center gap-2 w-full h-4/5 text-white ${
-                      alarm.level === 0
+                      (alarm.level === 1 || alarm.level === 0)
                         ? "bg-blue-300"
-                        : alarm.level === 1
+                        : alarm.level === 2
                         ? "bg-yellow-300"
                         : "bg-red-300"
                     }`}
                   >
                     <div className="flex flex-col items-center gap-2">
-                      {alarm.level === 1 && <Info className="h-16 w-16" />}
+                      {(alarm.level === 1 || alarm.level === 0) && <Info className="h-16 w-16" />}
                       {alarm.level === 2 && (
                         <TriangleAlert className="h-16 w-16" />
                       )}

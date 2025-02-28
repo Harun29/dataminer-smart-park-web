@@ -1,29 +1,35 @@
+import ReadingType from "@/types/ReadingType";
 import {
-  CloudSunRain,
+  BatteryCharging,
   Droplet,
+  Grid,
   Lamp,
+  ParkingCircle,
   Thermometer,
   Trash,
   Triangle,
+  Users
 } from "lucide-react";
-import ReadingType from "@/types/ReadingType";
 
-export const getPinIcon = (sensorType: string) => {
-  switch (sensorType) {
-    case "Temperature":
-      return { icon: <Thermometer size={16} /> };
-    case "Trash Can":
-      return { icon: <Trash size={16} /> };
-    case "Weather":
-      return { icon: <CloudSunRain size={16} /> };
-    case "Soil":
-      return { icon: <Droplet size={16} /> };
-    case "Fountain":
-      return { icon: <Triangle size={16} /> };
-    case "Lamp":
-      return { icon: <Lamp size={16} /> };
-    default:
-      return { icon: null };
+export const getPinIcon = (sensorName: string) => {
+  if (sensorName.includes("Temperature")) {
+    return { icon: <Thermometer size={16} /> };
+  }else if (sensorName.includes("Trash")) {
+    return { icon: <Trash size={16} /> };
+  }else if (sensorName.includes("Soil")) {
+    return { icon: <Droplet size={16} /> };
+  }else if (sensorName.includes("Fountain")) {
+    return { icon: <Triangle size={16} /> };
+  }else if (sensorName.includes("Light")) {
+    return { icon: <Lamp size={16} /> };
+  }else if (sensorName.includes("Parking")) {
+    return { icon: <ParkingCircle size={16} /> };
+  }else if (sensorName.includes("Battery")) {
+    return { icon: <BatteryCharging size={16} /> };
+  }else if (sensorName.includes("Solar")) {
+    return { icon: <Grid size={16} /> };
+  }else if (sensorName.includes("People")) {
+    return { icon: <Users size={16}/> };
   }
 };
 
