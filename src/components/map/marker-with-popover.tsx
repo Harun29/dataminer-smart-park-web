@@ -69,7 +69,7 @@ const MarkerWithPopover = ({ reading }: MarkerWithPopoverProps) => {
               </p>
               <p className="flex justify-between">
                 <span className="font-medium">Sensor Type:</span>
-                <span>{reading.sensorType}</span>
+                <span className="text-end">{reading.sensorType}</span>
               </p>
               <p className="flex justify-between">
                 <span className="font-medium">Sensor Status:</span>
