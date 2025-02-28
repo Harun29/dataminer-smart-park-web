@@ -2,7 +2,7 @@
 
 import { useAlarms } from "@/app/context/alarmsContexts";
 import { useAuth } from "@/app/context/authContext";
-import { BellRing, Info, TriangleAlert } from "lucide-react";
+import { BellRing, Info, Loader2, TriangleAlert } from "lucide-react";
 import { Button } from "./ui/button";
 import {
   Dialog,
@@ -31,12 +31,16 @@ import {
 } from "./ui/select";
 import { useState, useEffect } from "react";
 import UserType from "@/types/UserType";
+import {toast} from "sonner";
+
 
 const AlarmsDrawer = () => {
   const { isAdmin, user } = useAuth();
   const { alarms, setActiveSensor } = useAlarms();
   const [users, setUsers] = useState<UserType[]>([]);
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+  const [loading, setLoading] = useState(false);
+
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -56,6 +60,7 @@ const AlarmsDrawer = () => {
   }, []);
 
   const assignToWorker = async (alarmId: number, korisnikId: number) => {
+    setLoading(true);
     try {
       const response = await fetch(
         `https://localhost:7206/api/Alarm/UpdateAlarm?alarmId=${alarmId}&korisnikId=${korisnikId}`,
@@ -67,8 +72,12 @@ const AlarmsDrawer = () => {
         throw new Error("Network response was not ok");
       }
       console.log(`Assigned alarm ${alarmId} to user ${korisnikId}`);
+      toast.success("Alarm assigned successfully!");
     } catch (error) {
       console.error("Failed to assign alarm:", error);
+      toast.error("Failed to assign alarm!");
+    } finally{
+      setLoading(false);
     }
   };
 
@@ -167,7 +176,8 @@ const AlarmsDrawer = () => {
                       </DialogHeader>
                       <DialogFooter>
                         <Button
-                          disabled={isAdmin && !selectedUserId}
+                          className="rounded-full bg-blue-400 text-white"
+                          disabled={(isAdmin && !selectedUserId) || loading}
                           onClick={() => {
                             if (isAdmin && selectedUserId !== null) {
                               assignToWorker(alarm.id, selectedUserId);
@@ -176,6 +186,7 @@ const AlarmsDrawer = () => {
                             }
                           }}
                         >
+                          {loading && <Loader2 className="animate-spin mr-2" />}
                           Assign
                         </Button>
                       </DialogFooter>

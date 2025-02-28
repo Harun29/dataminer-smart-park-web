@@ -8,6 +8,7 @@ import { AuthProvider } from "./context/authContext";
 import AuthenticatedLayout from "@/components/authenticated-layout";
 import { SensorsProvider } from "./context/sensorsContext";
 import { AlarmsProvider } from "./context/alarmsContexts";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,6 +42,7 @@ export default function RootLayout({
               <SidebarProvider>
                 <AppSidebar />
                 {children}
+                <Toaster />
                 <AlarmsDrawer />
               </SidebarProvider>
             </AuthenticatedLayout>

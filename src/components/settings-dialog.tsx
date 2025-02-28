@@ -25,6 +25,7 @@ import {
 } from "./ui/select";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { Label } from "./ui/label";
+import { useSensors } from "@/app/context/sensorsContext";
 
 export function SettingsDialog({
   open,
@@ -41,8 +42,33 @@ export function SettingsDialog({
   const [warningValue, setWarningValue] = useState("0");
   const [urgentValue, setUrgentValue] = useState("0");
   const [loading, setLoading] = useState(false);
+  const {readings} = useSensors();
 
-  useEffect(() => {}, [selectedType]);
+  useEffect(() => {
+    const fetchSensorTypes = async () => {
+      try {
+        console.log("Fetching sensor types...");
+        const response = await fetch("https://localhost:7206/api/Category");
+        if (!response.ok) {
+          throw new Error("Failed to fetch sensor types");
+        }
+        const data = await response.json();
+        const sensorTypes = data
+          .find((category: { categoryNumber: number }) => category.categoryNumber === 2)
+          ?.categoryNames || [];
+  
+        // Filter sensor types based on readings
+        const filteredSensorTypes = sensorTypes.filter((type: string) =>
+          readings.some((sensor) => sensor.sensorType === type)
+        );
+  
+        setUniqueSensorTypes(filteredSensorTypes);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchSensorTypes();
+  }, [selectedType, readings]);
 
   useEffect(() => {
     const fetchThresholds = async () => {
@@ -54,11 +80,6 @@ export function SettingsDialog({
         }
         const data = (await response.json()) as ThresholdType[];
         setThresholds(data);
-
-        const sensorTypes = Array.from(
-          new Set(data.map((item) => item.deviceName))
-        );
-        setUniqueSensorTypes(sensorTypes);
       } catch (err) {
         console.error(err);
       }

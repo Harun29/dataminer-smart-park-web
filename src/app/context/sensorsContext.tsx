@@ -90,6 +90,8 @@ export const SensorsProvider: React.FC<SensorsProviderProps> = ({ children }) =>
 
   useEffect(() => {
     fetchSensorReadings();
+    const interval = setInterval(fetchSensorReadings, 60000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
