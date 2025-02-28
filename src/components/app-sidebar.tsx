@@ -35,17 +35,7 @@ const data = {
       name: "DataMiner SPO",
       logo: GalleryVerticalEnd,
       plan: "Smart Park Ops",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
+    }
   ],
   navMain: [
     {
@@ -85,7 +75,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           {!isAdmin && <WorkersTasks />}
         </SidebarContent>
         <SidebarFooter>
-          <NavUser user={data.user} />
+          <NavUser />
         </SidebarFooter>
         <SidebarRail />
       </Sidebar>
