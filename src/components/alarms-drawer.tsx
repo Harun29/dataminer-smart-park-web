@@ -96,8 +96,8 @@ const AlarmsDrawer = () => {
         </DrawerTrigger>
         <DrawerContent>
           <DrawerHeader>
-            <DrawerTitle>Device Alarms</DrawerTitle>
-            <DrawerDescription>
+            <DrawerTitle className="text-2xl">Device Alarms</DrawerTitle>
+            <DrawerDescription className="text-lg">
               Click on an alarm to assign it to a user.
             </DrawerDescription>
           </DrawerHeader>
@@ -127,7 +127,7 @@ const AlarmsDrawer = () => {
                       {alarm.level === 3 && (
                         <TriangleAlert className="h-16 w-16" />
                       )}
-                      <span>{alarm.senyorType}</span>
+                      <span className="text-center">{alarm.senyorType}</span>
                       <span>{alarm.capacity}% full</span>
                     </div>
                     <div className="w-full">
@@ -137,11 +137,13 @@ const AlarmsDrawer = () => {
 
                   <Dialog>
                     <DialogTrigger
-                      disabled={alarm.level === 0}
+                      disabled={alarm.level === 0 || alarm.level === 1 || alarm.korisnikId !== null}
                       className="h-1/5 w-full"
                       asChild
                     >
-                      <Button variant="ghost">Assign</Button>
+                      <Button variant="ghost">
+                        {alarm.korisnikId !== null ? "Assigned" : "Assign"}
+                      </Button>
                     </DialogTrigger>
                     <DialogContent>
                       <DialogHeader>
