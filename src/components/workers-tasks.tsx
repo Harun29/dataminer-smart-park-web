@@ -31,6 +31,7 @@ const WorkersTasks = () => {
               name={alarm.senyorType}
               value={alarm.capacity}
               severity={alarm.level}
+              unit={alarm.unit}
             />
             <Button
               variant="outline"

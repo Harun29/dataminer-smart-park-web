@@ -6,6 +6,7 @@ type AlarmType = {
     capacity: number;
     consumption: string;
     korisnikId: number | null;
+    unit: string;
 }
 
 export default AlarmType;

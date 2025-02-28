@@ -128,7 +128,7 @@ const AlarmsDrawer = () => {
                         <TriangleAlert className="h-16 w-16" />
                       )}
                       <span className="text-center">{alarm.senyorType}</span>
-                      <span>{alarm.capacity}% full</span>
+                      <span>{alarm.capacity}{alarm.unit}</span>
                     </div>
                     <div className="w-full">
                       <Progress className="text-white" value={alarm.capacity} />

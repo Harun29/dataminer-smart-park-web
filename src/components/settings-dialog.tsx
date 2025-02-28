@@ -252,7 +252,7 @@ export function SettingsDialog({
         <DialogFooter>
           <Button
             onClick={handleSave}
-            className="rounded-full"
+            className="rounded-full bg-blue-400 "
             disabled={loading}
           >
             {loading ? <Loader2 className="animate-spin" /> : <CheckCircle2 />}
