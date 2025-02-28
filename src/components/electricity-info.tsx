@@ -18,14 +18,14 @@ const ElectricityInfo = () => {
       <div className="flex flex-col justify-between items-end text-sm text-gray-700 mt-2">
         <span className="text-red-500">Consumption</span>
         <span className="text-red-600 text-2xl font-medium">
-          {powerConsumption}KW/h
+          {powerConsumption}W/h
         </span>
       </div>
 
       <div className="flex flex-col justify-between items-end text-sm text-gray-700">
         <span className="text-green-500">Production</span>
         <span className="text-green-600 text-2xl font-medium">
-          {powerProduction}KW/h
+          {powerProduction}W/h
         </span>
       </div>
 
