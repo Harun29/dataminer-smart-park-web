@@ -34,7 +34,7 @@ import UserType from "@/types/UserType";
 
 const AlarmsDrawer = () => {
   const { isAdmin, user } = useAuth();
-  const { alarms } = useAlarms();
+  const { alarms, setActiveSensor } = useAlarms();
   const [users, setUsers] = useState<UserType[]>([]);
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
 
@@ -94,11 +94,12 @@ const AlarmsDrawer = () => {
           </DrawerHeader>
 
           <div className=" overflow-x-auto custom-scrollbar m-6">
-            <div className="flex space-x-3 min-w-max">
+            <div className="flex space-x-3 min-w-max p-4">
               {alarms.map((alarm) => (
                 <div
+                  onClick={() => setActiveSensor(alarm.senzorId)}
                   key={alarm.id}
-                  className="bg-gray-100 rounded-lg overflow-hidden w-44 flex-none flex flex-col justify-between items-center h-64 mb-4"
+                  className="cursor-pointer hover:-translate-y-3 transition-all z-50 bg-gray-100 rounded-lg overflow-hidden w-44 flex-none flex flex-col justify-between items-center h-64 mb-4"
                 >
                   <div
                     className={`p-4 flex flex-col items-center gap-2 w-full h-4/5 text-white ${

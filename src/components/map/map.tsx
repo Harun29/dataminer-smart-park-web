@@ -10,6 +10,7 @@ import MarkerWithPopover from "./marker-with-popover";
 import { Polygon } from "./polygon";
 import zones from "./zones";
 import { useSensors } from "@/app/context/sensorsContext";
+import { useAlarms } from "@/app/context/alarmsContexts";
 
 const getZoneColor = (zoneName: string) => {
   switch (zoneName) {
@@ -37,6 +38,7 @@ const MapView = () => {
     lng: 18.335363239634667,
   });
   const { readings } = useSensors();
+  const {activeSensor} = useAlarms();
 
   const handleCenterChanged = useCallback((e: any) => {
     setCenter(e.center);

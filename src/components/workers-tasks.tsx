@@ -5,7 +5,7 @@ import AlarmInfo from "./alarm-info";
 import { Button } from "./ui/button";
 
 const WorkersTasks = () => {
-  const { myAlarms, setMyAlarms } = useAlarms();
+  const { myAlarms, setMyAlarms, setActiveSensor } = useAlarms();
 
   const markAsDone = async (alarmId: number) => {
     try {
@@ -26,7 +26,7 @@ const WorkersTasks = () => {
     <div>
       {myAlarms[0] ? (
         myAlarms.map((alarm, index) => (
-          <div key={index} className="task-item rounded-lg overflow-hidden m-3 cursor-pointer hover:scale-105 transform transition-transform">
+          <div onClick={() => setActiveSensor(alarm.senzorId)} key={index} className="task-item rounded-lg overflow-hidden m-3 cursor-pointer hover:scale-105 transform transition-transform">
             <AlarmInfo
               name={alarm.senyorType}
               value={alarm.capacity}

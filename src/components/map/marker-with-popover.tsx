@@ -12,7 +12,7 @@ type MarkerWithPopoverProps = {
 const MarkerWithPopover = ({ reading }: MarkerWithPopoverProps) => {
   const [open, setOpen] = useState(false);
   const popoverRef = useRef<HTMLDivElement>(null);
-  const { alarms } = useAlarms();
+  const { alarms, activeSensor, setActiveSensor } = useAlarms();
   const [severity, setSeverity] = useState<number>(0);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const MarkerWithPopover = ({ reading }: MarkerWithPopoverProps) => {
     };
   }, []);
 
-  return (
+  return ( reading.coordinates && 
     <AdvancedMarker
       onClick={() => setOpen(!open)}
       key={getPinPosition(reading).id}
@@ -47,7 +47,7 @@ const MarkerWithPopover = ({ reading }: MarkerWithPopoverProps) => {
       }}
     >
       <Popover open={open}>
-        <PopoverTrigger className={`flex items-center justify-center ${reading.name.includes("People") ? "w-16" : "w-7"} h-7 ${severity === 0 || severity === 1 ? "bg-blue-400" : severity === 2 ? "bg-yellow-400" : "bg-red-400"} text-white rounded-full shadow-lg hover:scale-125 transform transition-transform hover:z-50`}>
+        <PopoverTrigger onClick={() => setActiveSensor(0)} className={`flex items-center justify-center ${reading.name.includes("People") ? "w-16" : "w-7"} h-7 ${severity === 0 || severity === 1 ? "bg-blue-400" : severity === 2 ? "bg-yellow-400" : "bg-red-400"} text-white rounded-full shadow-lg hover:scale-125 transform transition-transform hover:z-50 ${activeSensor === parseInt(reading.id) ? "animate-bounce !w-9 !h-9" : ""}`}>
           {getPinIcon(reading.name)?.icon}
           {reading.name.includes("People") && (
             <span className="ml-2 text-lg">{reading.value}</span>

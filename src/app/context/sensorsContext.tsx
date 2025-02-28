@@ -26,6 +26,7 @@ export const SensorsProvider: React.FC<SensorsProviderProps> = ({ children }) =>
   const [basicInfo, setBasicInfo] = useState<ReadingType[]>([]);
   const [totalVisitors, setTotalVisitors] = useState<number>(0);
   const [batteryLevel, setBatteryLevel] = useState<number>(0);
+  
 
   const fetchSensorReadings = async () => {
     try {

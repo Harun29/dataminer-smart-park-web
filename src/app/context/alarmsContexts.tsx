@@ -9,6 +9,8 @@ type AlarmsContextType = {
   myAlarms: AlarmType[];
   setMyAlarms: React.Dispatch<React.SetStateAction<AlarmType[]>>;
   fetchSensorReadings: () => Promise<void>;
+  activeSensor: number | null;
+  setActiveSensor: React.Dispatch<React.SetStateAction<number | null>>;
 };
 
 const AlarmsContext = createContext<AlarmsContextType | undefined>(undefined);
@@ -21,6 +23,7 @@ export const AlarmsProvider: React.FC<AlarmsProviderProps> = ({ children }) => {
   const [alarms, setAlarms] = useState<AlarmType[]>([]);
   const [myAlarms, setMyAlarms] = useState<AlarmType[]>([]);
   const {user} = useAuth();
+  const [activeSensor, setActiveSensor] = useState<number | null>(null);
 
   const fetchSensorReadings = async () => {
     try {
@@ -59,7 +62,7 @@ export const AlarmsProvider: React.FC<AlarmsProviderProps> = ({ children }) => {
   }, [user]);
 
   return (
-    <AlarmsContext.Provider value={{ alarms, myAlarms, setMyAlarms, fetchSensorReadings }}>
+    <AlarmsContext.Provider value={{ alarms, myAlarms, setMyAlarms, fetchSensorReadings, activeSensor, setActiveSensor }}>
       {children}
     </AlarmsContext.Provider>
   );
